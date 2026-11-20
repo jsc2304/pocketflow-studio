@@ -12,6 +12,7 @@ private final class RecordingPanel: NSPanel {
 final class CapsuleHover {
     enum Target: Hashable { case surface, microphone, notetaker, meetingNotes, dictation }
 
+    var presentsInNotch = false
     private(set) var isHovering = false
     private(set) var target: Target?
     @ObservationIgnored private var regions: [Target: CGRect] = [:]
@@ -120,6 +121,7 @@ extension AppModel {
 final class CapsuleController {
     private let panel: NSPanel
     private let model: AppModel
+    private let meter = NotchShelfMeter()
     private let hover = CapsuleHover()
     private let content: CapsuleHostingView
     private var pointerMonitors: [Any] = []
@@ -143,6 +145,7 @@ final class CapsuleController {
             name: NSApplication.didChangeScreenParametersNotification, object: nil)
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(reposition),
             name: NSWorkspace.activeSpaceDidChangeNotification, object: nil)
+        meter.presentationChanged = { [weak self] in self?.update() }
         observeMeetings()
         observeHover()
         pointerMonitors = [
@@ -157,11 +160,24 @@ final class CapsuleController {
     }
 
     func update() {
+        if notchLevel != nil {
+            meter.start { [weak self] in self?.notchLevel }
+        } else { meter.stop() }
+        hover.presentsInNotch = meter.presented
         if model.showsCapsule { show() } else { panel.orderOut(nil) }
+    }
+
+    private var notchLevel: Float? {
+        guard model.settings.useNotchShelfMeter, model.showsCapsule,
+              model.failure == nil, model.meetings.message == nil else { return nil }
+        if model.phase == .recording { return model.voiceLevels.value(at: .now) }
+        guard model.phase == .idle, model.meetings.capturing?.phase == .recording else { return nil }
+        return max(model.meetings.levels.me, model.meetings.levels.them)
     }
 
     private func observeMeetings() {
         withObservationTracking {
+            _ = model.meetings.capturing?.phase
             _ = model.meetings.runs
             _ = model.meetings.message
             _ = model.meetingDetector.meeting
@@ -175,9 +191,10 @@ final class CapsuleController {
 
     /// Lets clicks outside the capsule's hover area reach the apps below the transparent panel.
     private func observeHover() {
-        panel.ignoresMouseEvents = !hover.isHovering
+        panel.ignoresMouseEvents = hover.presentsInNotch || !hover.isHovering
         withObservationTracking {
             _ = hover.isHovering
+            _ = hover.presentsInNotch
         } onChange: { [weak self] in
             Task { @MainActor [weak self] in self?.observeHover() }
         }
@@ -228,6 +245,8 @@ final class CapsuleController {
         pointerMonitors = []
         NotificationCenter.default.removeObserver(self)
         NSWorkspace.shared.notificationCenter.removeObserver(self)
+        meter.presentationChanged = nil
+        meter.stop()
         panel.close()
     }
 }

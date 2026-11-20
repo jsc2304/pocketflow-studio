@@ -238,6 +238,8 @@ struct SettingsView: View {
                     RowDivider()
                     SettingToggle(L10n.tr("Floating recording capsule"), caption: L10n.tr("A small voice control at the bottom of your screen."), isOn: setting(\.showCapsule))
                     RowDivider()
+                    SettingToggle(L10n.tr("Recording animation in NotchShelf"), caption: L10n.tr("Show the audio level in NotchShelf during recording. The floating capsule returns when NotchShelf is unavailable."), isOn: setting(\.useNotchShelfMeter))
+                    RowDivider()
                     SettingRow(L10n.tr("Capsule position"), caption: L10n.tr("Where the capsule sits along the bottom of the screen. You can also right-click the capsule to move or hide it.")) {
                         Picker(L10n.tr("Capsule position"), selection: setting(\.capsulePosition)) {
                             ForEach(CapsulePosition.allCases, id: \.self) { Text($0.title).tag($0) }

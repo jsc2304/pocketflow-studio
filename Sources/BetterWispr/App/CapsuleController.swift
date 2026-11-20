@@ -8,6 +8,67 @@ private final class RecordingPanel: NSPanel {
     override var canBecomeMain: Bool { false }
 }
 
+/// Studio draws its own caption behind the shelf so dictation text stays in this process.
+@MainActor
+private final class NotchCaption {
+    private let panel = RecordingPanel(contentRect: .zero, styleMask: [.borderless, .nonactivatingPanel],
+                                       backing: .buffered, defer: false)
+    private let displayID = NSDeviceDescriptionKey("NSScreenNumber")
+    private var anchor: NSNumber?
+
+    init(model: AppModel) {
+        panel.level = .mainMenu + 2
+        panel.collectionBehavior = [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary, .ignoresCycle]
+        panel.isOpaque = false
+        panel.backgroundColor = .clear
+        panel.hasShadow = false
+        panel.ignoresMouseEvents = true
+        panel.hidesOnDeactivate = false
+        panel.contentView = NSHostingView(rootView: NotchCaptionLine(model: model))
+    }
+
+    func show() {
+        let screen = NSScreen.screens.first { anchor != nil && $0.deviceDescription[displayID] as? NSNumber == anchor }
+            ?? NSScreen.screens.first { $0.frame.contains(NSEvent.mouseLocation) } ?? NSScreen.main
+        guard let screen else { hide(); return }
+        anchor = screen.deviceDescription[displayID] as? NSNumber
+        let inset = screen.frame.maxY - screen.visibleFrame.maxY
+        let bar = screen.safeAreaInsets.top > 0 ? screen.safeAreaInsets.top : (inset > 0 ? inset : NSStatusBar.system.thickness)
+        let center = if let left = screen.auxiliaryTopLeftArea, let right = screen.auxiliaryTopRightArea {
+            (left.maxX + right.minX) / 2
+        } else { screen.frame.midX }
+        let rect = NSRect(x: center - 132, y: screen.frame.maxY - bar - 22, width: 264, height: 30)
+        if panel.frame != rect { panel.setFrame(rect, display: true) }
+        if !panel.isVisible { panel.orderFrontRegardless() }
+    }
+
+    func hide() {
+        anchor = nil
+        if panel.isVisible { panel.orderOut(nil) }
+    }
+}
+
+private struct NotchCaptionLine: View {
+    let model: AppModel
+    private func tail(_ text: String) -> String {
+        text.suffix(150).split(whereSeparator: { $0.isWhitespace }).joined(separator: " ")
+    }
+
+    var body: some View {
+        let live = model.liveTranscript
+        let separator = live.confirmed.isEmpty || live.hypothesis.isEmpty ? "" : " "
+        (Text(verbatim: tail(live.confirmed)).foregroundColor(.white)
+         + Text(verbatim: separator + tail(live.hypothesis)).foregroundColor(.white.opacity(0.8)))
+            .font(.system(size: 12))
+            .lineLimit(1)
+            .truncationMode(.head)
+            .padding(.horizontal, 10)
+            .padding(.top, 8)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.black, in: RoundedRectangle(cornerRadius: 9))
+    }
+}
+
 @MainActor @Observable
 final class CapsuleHover {
     enum Target: Hashable { case surface, microphone, notetaker, meetingNotes, dictation }
@@ -121,6 +182,7 @@ extension AppModel {
 final class CapsuleController {
     private let panel: NSPanel
     private let model: AppModel
+    private let caption: NotchCaption
     private let meter = NotchShelfMeter()
     private let hover = CapsuleHover()
     private let content: CapsuleHostingView
@@ -128,6 +190,7 @@ final class CapsuleController {
 
     init(model: AppModel) {
         self.model = model
+        caption = NotchCaption(model: model)
         content = CapsuleHostingView(model: model, hover: hover)
         panel = RecordingPanel(contentRect: NSRect(x: 0, y: 0, width: 440, height: 240),
                                styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
@@ -164,7 +227,14 @@ final class CapsuleController {
             meter.start { [weak self] in self?.notchLevel }
         } else { meter.stop() }
         hover.presentsInNotch = meter.presented
+        updateCaption()
         if model.showsCapsule { show() } else { panel.orderOut(nil) }
+    }
+
+    private func updateCaption() {
+        if meter.presented && model.phase == .recording && model.showsCapsule && !model.liveTranscript.isEmpty {
+            caption.show()
+        } else { caption.hide() }
     }
 
     private var notchLevel: Float? {
@@ -177,6 +247,7 @@ final class CapsuleController {
 
     private func observeMeetings() {
         withObservationTracking {
+            _ = model.liveTranscript.isEmpty
             _ = model.meetings.capturing?.phase
             _ = model.meetings.runs
             _ = model.meetings.message
@@ -207,6 +278,7 @@ final class CapsuleController {
     }
 
     @objc private func reposition() {
+        updateCaption()
         let screens = NSScreen.screens
         let pointer = NSEvent.mouseLocation
         let meetingScreen = model.meetingPrompt.flatMap { meeting in
@@ -247,6 +319,7 @@ final class CapsuleController {
         NSWorkspace.shared.notificationCenter.removeObserver(self)
         meter.presentationChanged = nil
         meter.stop()
+        caption.hide()
         panel.close()
     }
 }

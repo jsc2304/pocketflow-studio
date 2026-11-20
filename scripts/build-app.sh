@@ -23,12 +23,13 @@ version="$(tr -d '[:space:]' < VERSION)"
 if [[ -n "${SPARKLE_PUBLIC_KEY:-}" ]]; then
     plutil -insert SUPublicEDKey -string "$SPARKLE_PUBLIC_KEY" "$app/Contents/Info.plist"
 fi
-icon_sources=(Sources/BetterWispr/Design/BrandMark.swift scripts/render-app-icon.swift)
+artwork=Resources/PocketFlow.png
+renderer=scripts/render-app-icon.swift
 icon=.build/AppIcon.icns
-if [[ ! -f "$icon" || "${icon_sources[0]}" -nt "$icon" || "${icon_sources[1]}" -nt "$icon" ]]; then
+if [[ ! -f "$icon" || "$artwork" -nt "$icon" || "$renderer" -nt "$icon" ]]; then
     iconset="$(mktemp -d)/AppIcon.iconset"
-    swiftc -parse-as-library "${icon_sources[@]}" -o .build/render-app-icon
-    .build/render-app-icon "$iconset"
+    swiftc -parse-as-library "$renderer" -o .build/render-app-icon
+    .build/render-app-icon "$iconset" "$artwork"
     iconutil -c icns "$iconset" -o "$icon"
 fi
 cp "$icon" "$app/Contents/Resources/AppIcon.icns"

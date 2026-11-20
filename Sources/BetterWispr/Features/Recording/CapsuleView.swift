@@ -38,13 +38,13 @@ struct CapsuleView: View {
                 Spacer(minLength: 0)
             } else {
                 Spacer(minLength: 0)
-                if !showsCard, let target = hover.target {
+                if !hover.presentsInNotch, !showsCard, let target = hover.target {
                     tooltip(for: target)
                 }
                 if model.isBusy, !model.liveTranscript.isEmpty {
                     livePreview
                 }
-                surface
+                if !hover.presentsInNotch || showsCard { surface }
             }
         }
         .padding(atTop ? .top : .bottom, atTop ? 8 : 16)

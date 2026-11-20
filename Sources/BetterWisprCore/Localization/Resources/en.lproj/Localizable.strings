@@ -1216,3 +1216,5 @@
 "Keep recording" = "Keep recording";
 "Stop when the call ends" = "Stop when the call ends";
 "Stop notes started during a recognized call after the call app releases its audio. You can keep recording from the meeting note." = "Stop notes started during a recognized call after the call app releases its audio. You can keep recording from the meeting note.";
+"Recording animation in NotchShelf" = "Recording animation in NotchShelf";
+"Show the audio level in NotchShelf during recording. The floating capsule returns when NotchShelf is unavailable." = "Show the audio level in NotchShelf during recording. The floating capsule returns when NotchShelf is unavailable.";

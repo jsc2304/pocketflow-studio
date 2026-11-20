@@ -1216,3 +1216,5 @@
 "Keep recording" = "Continuer l’enregistrement";
 "Stop when the call ends" = "Arrêter à la fin de l’appel";
 "Stop notes started during a recognized call after the call app releases its audio. You can keep recording from the meeting note." = "Si la prise de notes a commencé pendant un appel reconnu, elle s’arrête lorsque l’application libère l’audio. Vous pouvez poursuivre l’enregistrement depuis la note.";
+"Recording animation in NotchShelf" = "Animation d’enregistrement dans NotchShelf";
+"Show the audio level in NotchShelf during recording. The floating capsule returns when NotchShelf is unavailable." = "Afficher le niveau audio dans NotchShelf pendant l’enregistrement. La capsule flottante revient si NotchShelf est indisponible.";

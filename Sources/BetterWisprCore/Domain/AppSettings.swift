@@ -130,6 +130,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var appendTrailingSpace: Bool = false
     /// Writes spoken numbers as digits, such as "forty-two" as "42", in every language.
     public var writesNumbersAsDigits: Bool = true
+    public var useNotchShelfMeter = false
     public var showCapsule: Bool = true
     public var capsulePosition: CapsulePosition = .bottomCenter
     /// Shows Parakeet's provisional words in the capsule while recording.
@@ -304,6 +305,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         historyClock = try container.decodeIfPresent(RetentionClock.self, forKey: .historyClock) ?? RetentionClock()
         appendTrailingSpace = try container.decodeIfPresent(Bool.self, forKey: .appendTrailingSpace) ?? false
         writesNumbersAsDigits = try container.decodeIfPresent(Bool.self, forKey: .writesNumbersAsDigits) ?? true
+        useNotchShelfMeter = try container.decodeIfPresent(Bool.self, forKey: .useNotchShelfMeter) ?? false
         showCapsule = try container.decode(Bool.self, forKey: .showCapsule)
         capsulePosition = (try? container.decodeIfPresent(CapsulePosition.self, forKey: .capsulePosition)) ?? .bottomCenter
         showLiveText = try container.decodeIfPresent(Bool.self, forKey: .showLiveText) ?? true

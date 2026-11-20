@@ -41,7 +41,7 @@ struct CapsuleView: View {
                 if !hover.presentsInNotch, !showsCard, let target = hover.target {
                     tooltip(for: target)
                 }
-                if model.isBusy, !model.liveTranscript.isEmpty {
+                if !hover.presentsInNotch, model.isBusy, !model.liveTranscript.isEmpty {
                     livePreview
                 }
                 if !hover.presentsInNotch || showsCard { surface }

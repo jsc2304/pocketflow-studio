@@ -1,6 +1,6 @@
 # Recording meter for NotchShelf
 
-Enable **Recording animation in NotchShelf** in PocketFlow Studio settings. During dictation and meeting capture, a compatible running shelf can display the meter. Prompts, errors and live transcript previews remain in Studio. Use Studio’s shortcut or menu to finish a recording.
+Enable **Recording animation in NotchShelf** in PocketFlow Studio settings. During dictation and meeting capture, a compatible running shelf can display the meter. While the shelf presents the meter, Studio hides the floating live transcript preview. The preview returns with the capsule if the connection drops. Prompts and errors remain in Studio. Use Studio’s shortcut or menu to finish a recording.
 
 Both apps use the current login session’s DistributedNotificationCenter. The prefix is `io.github.jsc2304.pocketflow-studio.meter.v1.` and the notification object is an ephemeral UUID string. The interface carries presentation state only. It grants no recording controls. Local processes can observe or spoof these notifications.
 

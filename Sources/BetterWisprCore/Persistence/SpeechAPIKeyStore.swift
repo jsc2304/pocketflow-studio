@@ -2,10 +2,10 @@ import Foundation
 import Security
 
 public struct SpeechAPIKeyStore: Sendable {
-    public static let notes = SpeechAPIKeyStore(service: "com.betterwispr.notes-api")
+    public static let notes = SpeechAPIKeyStore(service: "local.betterwispr.meeting-test.notes-api")
     private let service: String
 
-    public init(service: String = "com.betterwispr.speech-api") { self.service = service }
+    public init(service: String = "local.betterwispr.meeting-test.speech-api") { self.service = service }
 
     public func read(for connection: SpeechConnection) throws -> String? {
         var query = query(for: connection)

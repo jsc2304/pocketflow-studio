@@ -151,7 +151,7 @@ struct CalendarView: View {
 
     private var connect: some View {
         unavailable(L10n.tr("Connect your calendar"), systemImage: "calendar.badge.plus",
-                    detail: L10n.tr("See your upcoming meetings, join calls and take notes with the event’s title and invitees. BetterWispr reads the calendars already on this Mac, such as iCloud, Google and Exchange, and never changes them.")) {
+                    detail: L10n.tr("See your upcoming meetings, join calls and take notes with the event’s title and invitees. PocketFlow Studio reads the calendars already on this Mac, such as iCloud, Google and Exchange, and never changes them.")) {
             Button(L10n.tr("Connect Calendar")) { model.useCalendar(true) }
                 .buttonStyle(.borderedProminent)
         }
@@ -159,7 +159,7 @@ struct CalendarView: View {
 
     private var denied: some View {
         unavailable(L10n.tr("Calendar access is off"), systemImage: "calendar.badge.exclamationmark",
-                    detail: L10n.tr("Allow BetterWispr under Privacy & Security, Calendars in System Settings, then come back here.")) {
+                    detail: L10n.tr("Allow PocketFlow Studio under Privacy & Security, Calendars in System Settings, then come back here.")) {
             Button(L10n.tr("Open System Settings")) {
                 NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Calendars")!)
             }

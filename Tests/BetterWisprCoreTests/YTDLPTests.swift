@@ -49,7 +49,7 @@ import Testing
 
 @MainActor
 private func fakeYTDLP(_ behaviour: String) throws -> (executable: URL, seen: URL) {
-    let folder = FileManager.default.temporaryDirectory.appending(path: "betterwispr-test-\(UUID().uuidString)")
+    let folder = FileManager.default.temporaryDirectory.appending(path: "pocketflow-studio-test-\(UUID().uuidString)")
     try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
     let executable = folder.appending(path: "yt-dlp")
     try """
@@ -91,7 +91,7 @@ private func folder(seenBy fake: (executable: URL, seen: URL)) throws -> String 
     }
     #expect(title == "A talk" && contents == "audio" && permissions == 0o700)
     #expect(fractions.contains(0.5))
-    #expect(try folder(seenBy: success).contains("betterwispr-media-"))
+    #expect(try folder(seenBy: success).contains("pocketflow-studio-media-"))
     #expect(!FileManager.default.fileExists(atPath: try folder(seenBy: success)))
 
     let failing = try fakeYTDLP("echo 'ERROR: [youtube] abc: Video unavailable' >&2; exit 1")

@@ -1,4 +1,6 @@
-# Working on BetterWispr
+# Working on PocketFlow Studio
+
+See [docs/PRD.md](docs/PRD.md) for product scope and release criteria (guardrails version 8).
 
 Native macOS 14+ dictation app; Swift 6.2+, SwiftUI/AppKit, Swift Package Manager.
 `BetterWispr` owns app composition, feature views and design components.
@@ -38,7 +40,7 @@ Keep BetterShot-specific screenshot behavior out of this app.
 
 Run `swift build` and `swift test` for Swift changes. Run
 `python3 Tests/evaluate_check.py` when changing evaluation/normalization.
-`./scripts/build-app.sh` creates `.build/debug/BetterWispr.app`;
+`./scripts/build-app.sh` creates `.build/debug/PocketFlow Studio.app`;
 `./scripts/run.sh` launches the bundle. Follow `docs/testing.md` for permission,
 microphone, global shortcut, paste, cancellation and offline model checks.
 Distinguish automated checks from OS behavior that has not been exercised.

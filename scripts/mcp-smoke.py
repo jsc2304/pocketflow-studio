@@ -9,8 +9,8 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
-APP = Path(sys.argv[1] if len(sys.argv) > 1 else ".build/debug/BetterWispr.app")
-BINARY = APP / "Contents/MacOS/BetterWispr"
+APP = Path(sys.argv[1] if len(sys.argv) > 1 else ".build/debug/PocketFlow Studio.app")
+BINARY = APP / "Contents/MacOS/PocketFlowStudio"
 MEETING_ID = str(uuid.uuid4()).upper()
 REFERENCE = datetime(2001, 1, 1, tzinfo=timezone.utc)
 
@@ -53,7 +53,7 @@ def text(reply):
 
 with tempfile.TemporaryDirectory() as root:
     home = Path(root)
-    support = home / "Library/Application Support/BetterWispr"
+    support = home / "Library/Application Support/PocketFlow Studio"
     meetings = support / "Meetings"
     meetings.mkdir(parents=True)
     meeting = {
@@ -76,7 +76,7 @@ with tempfile.TemporaryDirectory() as root:
     off = exchange(home, handshake + [call(3, "list_meetings", {})])
     assert off[1]["result"]["protocolVersion"] == "2025-06-18"
     assert {t["name"] for t in off[2]["result"]["tools"]} == {"list_meetings", "get_meeting", "search_meetings"}
-    assert text(off[3]) == ("Connected apps is off. Turn it on in BetterWispr Settings > Connected apps, then try again.", True)
+    assert text(off[3]) == ("Connected apps is off. Turn it on in PocketFlow Studio Settings > Connected apps, then try again.", True)
 
     settings = {"selectedModelID": "apple", "language": "auto", "autoPaste": True, "saveHistory": True, "showCapsule": True,
                 "launchAtLogin": False, "silenceThreshold": 0.002, "mcpServer": True}

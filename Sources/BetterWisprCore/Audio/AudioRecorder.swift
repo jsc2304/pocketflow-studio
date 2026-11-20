@@ -30,7 +30,7 @@ public enum AudioRecordingError: LocalizedError {
 
     public var errorDescription: String? {
         switch self {
-        case .permissionDenied: L10n.tr("Allow Microphone access for BetterWispr in System Settings → Privacy & Security.")
+        case .permissionDenied: L10n.tr("Allow Microphone access for PocketFlow Studio in System Settings → Privacy & Security.")
         case .unavailable: L10n.tr("No microphone input is available. Check your input device in Sound settings.")
         case .inputStalled: L10n.tr("The microphone stopped delivering audio. Reconnect it or choose another input in Settings.")
         case .alreadyRecording: L10n.tr("A recording is already running.")
@@ -88,7 +88,7 @@ public final class AudioRecorder {
         try Task.checkCancellation()
         guard recordingID == id else { throw CancellationError() }
         guard allowed else { throw AudioRecordingError.permissionDenied }
-        recordingURL = FileManager.default.temporaryDirectory.appending(path: "betterwispr-\(UUID().uuidString).caf")
+        recordingURL = FileManager.default.temporaryDirectory.appending(path: "pocketflow-studio-\(UUID().uuidString).caf")
         meter = VoiceLevelMeter()
         tap = onSamples.map(LiveSampleTap.init)
         let progress = AudioCaptureProgress()
@@ -120,7 +120,7 @@ public final class AudioRecorder {
             }
             recoveryError = error
         }
-        Logger(subsystem: "org.betterwispr.app", category: "MicrophoneCapture").notice("Main thread lag: max=\(self.mainThreadLag)s")
+        Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "MicrophoneCapture").notice("Main thread lag: max=\(self.mainThreadLag)s")
         return try stopKeepingAudio()
     }
 
@@ -147,7 +147,7 @@ public final class AudioRecorder {
 
     /// Deletes dictation audio left by a crash; a day's grace spares a recording another running copy is still writing.
     public static func removeLeftovers(in folder: URL = FileManager.default.temporaryDirectory, now: Date = Date()) {
-        let prefix = "betterwispr-"
+        let prefix = "pocketflow-studio-"
         let items = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: [.contentModificationDateKey])) ?? []
         for url in items where url.pathExtension == "caf" {
             let name = url.deletingPathExtension().lastPathComponent
@@ -224,7 +224,7 @@ public final class AudioRecorder {
     private func logMainThreadLag(behind end: TimeInterval) {
         let lag = ProcessInfo.processInfo.systemUptime - end
         if lag > 0.25, mainThreadLag <= 0.25 {
-            Logger(subsystem: "org.betterwispr.app", category: "MicrophoneCapture").notice("Main thread behind capture: lag=\(lag)s")
+            Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "MicrophoneCapture").notice("Main thread behind capture: lag=\(lag)s")
         }
         mainThreadLag = max(mainThreadLag, lag)
     }
@@ -233,7 +233,7 @@ public final class AudioRecorder {
     private func restartInputIfSilent(_ loudness: [Float], duration: TimeInterval, session id: UUID) {
         guard !restartedSilentInput, digitalSilence.reaches(2, after: loudness, over: duration) else { return }
         restartedSilentInput = true
-        Logger(subsystem: "org.betterwispr.app", category: "MicrophoneCapture").notice("Restarting input after 2s of digital silence")
+        Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "MicrophoneCapture").notice("Restarting input after 2s of digital silence")
         Task { await followMicrophone(session: id, restarting: true) }
     }
 
@@ -419,7 +419,7 @@ final class RecordingWriter: @unchecked Sendable {
         lock.lock()
         defer { lock.unlock() }
         file = nil
-        Logger(subsystem: "org.betterwispr.app", category: "MicrophoneCapture").notice("Finished input: duration=\(Double(self.frames) / self.sampleRate)s active=\(Double(self.activeFrames) / self.sampleRate)s maxRMS=\(self.maximumRMS) threshold=\(self.threshold)")
+        Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "MicrophoneCapture").notice("Finished input: duration=\(Double(self.frames) / self.sampleRate)s active=\(Double(self.activeFrames) / self.sampleRate)s maxRMS=\(self.maximumRMS) threshold=\(self.threshold)")
         // ponytail: an amplitude gate rejects silence; use a learned VAD if noise rejection is needed.
         return (Double(frames) / sampleRate, Double(activeFrames) / sampleRate >= 0.12, error)
     }

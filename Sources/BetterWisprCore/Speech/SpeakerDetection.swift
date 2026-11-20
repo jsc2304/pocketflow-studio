@@ -293,7 +293,7 @@ public actor SpeakerRecording {
     private static let format = AVAudioFormat(standardFormatWithSampleRate: 16_000, channels: 1)!
 
     public init() throws {
-        url = FileManager.default.temporaryDirectory.appending(path: "betterwispr-meeting-voices-\(UUID().uuidString).caf")
+        url = FileManager.default.temporaryDirectory.appending(path: "pocketflow-studio-meeting-voices-\(UUID().uuidString).caf")
         file = try AVAudioFile(forWriting: url, settings: Self.format.settings, commonFormat: .pcmFormatFloat32, interleaved: false)
     }
 
@@ -332,7 +332,7 @@ public actor SpeakerRecording {
         }
         source.framePosition = first
         try source.read(into: buffer, frameCount: AVAudioFrameCount(last - first))
-        let piece = FileManager.default.temporaryDirectory.appending(path: "betterwispr-meeting-\(UUID().uuidString).caf")
+        let piece = FileManager.default.temporaryDirectory.appending(path: "pocketflow-studio-meeting-\(UUID().uuidString).caf")
         do {
             try AVAudioFile(forWriting: piece, settings: Self.format.settings, commonFormat: .pcmFormatFloat32, interleaved: false).write(from: buffer)
         } catch {

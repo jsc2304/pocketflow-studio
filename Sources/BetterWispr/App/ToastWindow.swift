@@ -45,12 +45,15 @@ extension Toast {
 final class ToastWindow {
     static let shared = ToastWindow()
 
+    // Only the GUI entry point presents notifications on the user’s desktop.
+    var isEnabled = false
     private var panel: NSPanel?
     private var dismissTask: Task<Void, Never>?
 
     private init() {}
 
     func show(_ toast: Toast) {
+        guard isEnabled else { return }
         dismiss(animated: false)
 
         let hostingView = ToastHostingView(rootView: ToastView(toast: toast) { [weak self] in self?.dismiss(animated: true) })

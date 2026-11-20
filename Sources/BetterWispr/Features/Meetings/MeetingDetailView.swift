@@ -657,7 +657,7 @@ struct MeetingDetailView: View {
     }
 
     private static let listeningAnchor = "listening"
-    private static let callAudioHint = L10n.tr("BetterWispr hasn’t heard the other side of the call yet. Allow it under Screen & System Audio Recording, and make sure call audio plays on this Mac.")
+    private static let callAudioHint = L10n.tr("PocketFlow Studio hasn’t heard the other side of the call yet. Allow it under Screen & System Audio Recording, and make sure call audio plays on this Mac.")
     private static let audioSettings = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture")!
 }
 

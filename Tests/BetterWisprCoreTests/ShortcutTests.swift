@@ -230,7 +230,9 @@ import Testing
     #expect(throws: ShortcutError.self) { try other.register(f18) }
     occupied.unregister()
     model.suspendShortcut()
+    let panelsBeforeConflict = Set(NSApplication.shared.windows.compactMap { ($0 as? NSPanel).map(ObjectIdentifier.init) })
     model.changeShortcut(f18)
+    #expect(Set(NSApplication.shared.windows.compactMap { ($0 as? NSPanel).map(ObjectIdentifier.init) }) == panelsBeforeConflict)
     model.suspendShortcut()
     model.changeCancelShortcut(f18)
     #expect(model.settings.shortcut == .optionSpace)

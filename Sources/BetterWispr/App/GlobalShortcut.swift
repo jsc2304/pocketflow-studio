@@ -61,7 +61,7 @@ final class GlobalShortcut {
         var hotKey: EventHotKeyRef?
         let status = RegisterEventHotKey(keyCode, modifiers.rawValue, identifier, GetApplicationEventTarget(), 0, &hotKey)
         guard status == noErr, let hotKey else {
-            Logger(subsystem: "org.betterwispr.app", category: "GlobalShortcut").error("Hot key registration failed: id=\(self.identifier.id) keyCode=\(keyCode) modifiers=\(modifiers.symbols, privacy: .public) status=\(status)")
+            Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "GlobalShortcut").error("Hot key registration failed: id=\(self.identifier.id) keyCode=\(keyCode) modifiers=\(modifiers.symbols, privacy: .public) status=\(status)")
             return false
         }
         hotKeys.append(hotKey)
@@ -142,7 +142,7 @@ enum ShortcutError: LocalizedError {
         case .unavailable(let shortcut): L10n.tr("%@ is used by another app.", String(shortcut.displayName))
         case .accessibilityRequired: L10n.tr("Allow Accessibility in Settings to use a modifier key by itself.")
         case .monitorUnavailable: L10n.tr("Couldn’t listen for the modifier key. Try choosing the shortcut again.")
-        case .alreadyAssigned(let shortcut): L10n.tr("%@ is already BetterWispr’s other shortcut.", String(shortcut.displayName))
+        case .alreadyAssigned(let shortcut): L10n.tr("%@ is already PocketFlow Studio’s other shortcut.", String(shortcut.displayName))
         case .needsKey: L10n.tr("This shortcut needs a key, not a modifier alone.")
         case .cancelsDictation: L10n.tr("Esc cancels a dictation, so this shortcut can’t use it.")
         }

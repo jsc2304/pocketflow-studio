@@ -9,12 +9,15 @@ final class AppUpdater: NSObject {
     private(set) var canCheckForUpdates = false
     private(set) var pendingVersion: String?
 
+    let updatesConfigured = Bundle.main.object(forInfoDictionaryKey: "SUPublicEDKey") != nil
+
     var automaticallyChecksForUpdates: Bool {
         get {
             access(keyPath: \.automaticallyChecksForUpdates)
-            return controller.updater.automaticallyChecksForUpdates
+            return updatesConfigured && controller.updater.automaticallyChecksForUpdates
         }
         set {
+            guard updatesConfigured else { return }
             withMutation(keyPath: \.automaticallyChecksForUpdates) { controller.updater.automaticallyChecksForUpdates = newValue }
         }
     }
@@ -22,9 +25,10 @@ final class AppUpdater: NSObject {
     var automaticallyDownloadsUpdates: Bool {
         get {
             access(keyPath: \.automaticallyDownloadsUpdates)
-            return controller.updater.automaticallyDownloadsUpdates
+            return updatesConfigured && controller.updater.automaticallyDownloadsUpdates
         }
         set {
+            guard updatesConfigured else { return }
             withMutation(keyPath: \.automaticallyDownloadsUpdates) { controller.updater.automaticallyDownloadsUpdates = newValue }
         }
     }
@@ -35,12 +39,13 @@ final class AppUpdater: NSObject {
 
     override init() {
         super.init()
+        guard updatesConfigured else { return }
         observation = controller.updater.observe(\.canCheckForUpdates, options: [.initial, .new]) { [weak self] updater, _ in
             MainActor.assumeIsolated { self?.canCheckForUpdates = updater.canCheckForUpdates }
         }
     }
 
-    func checkForUpdates() { controller.checkForUpdates(nil) }
+    func checkForUpdates() { if updatesConfigured { controller.checkForUpdates(nil) } }
 
     func installUpdate() {
         guard let relaunch else { return checkForUpdates() }
@@ -51,10 +56,10 @@ final class AppUpdater: NSObject {
 extension AppUpdater: SPUUpdaterDelegate {
     func updater(_ updater: SPUUpdater, willInstallUpdateOnQuit item: SUAppcastItem,
                  immediateInstallationBlock immediateInstallHandler: @escaping () -> Void) -> Bool {
-        Logger(subsystem: "org.betterwispr.app", category: "Updates").notice("Update ready to install on quit: version=\(item.versionString, privacy: .public)")
+        Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "Updates").notice("Update ready to install on quit: version=\(item.versionString, privacy: .public)")
         relaunch = immediateInstallHandler
         pendingVersion = item.displayVersionString
-        ToastWindow.shared.show(Toast(title: L10n.tr("Update ready"), message: L10n.tr("Restart BetterWispr to finish updating to %@.", String(item.displayVersionString)),
+        ToastWindow.shared.show(Toast(title: L10n.tr("Update ready"), message: L10n.tr("Restart PocketFlow Studio to finish updating to %@.", String(item.displayVersionString)),
                                       systemImage: "arrow.down.circle", action: Toast.Action(title: L10n.tr("Restart"), perform: installUpdate)))
         return true
     }
@@ -70,7 +75,7 @@ extension AppUpdater: @preconcurrency SPUStandardUserDriverDelegate {
     func standardUserDriverWillHandleShowingUpdate(_ handleShowingUpdate: Bool, forUpdate update: SUAppcastItem, state: SPUUserUpdateState) {
         guard !handleShowingUpdate else { return }
         pendingVersion = update.displayVersionString
-        ToastWindow.shared.show(Toast(title: L10n.tr("Update available"), message: L10n.tr("BetterWispr %@ is ready to install.", String(update.displayVersionString)),
+        ToastWindow.shared.show(Toast(title: L10n.tr("Update available"), message: L10n.tr("PocketFlow Studio %@ is ready to install.", String(update.displayVersionString)),
                                       systemImage: "arrow.down.circle", action: Toast.Action(title: L10n.tr("Update"), perform: installUpdate)))
     }
 

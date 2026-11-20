@@ -614,7 +614,7 @@ final class MeetingModel {
     private static func removeLeftoverAudio() {
         let folder = FileManager.default.temporaryDirectory
         let files = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []
-        for file in files where file.lastPathComponent.hasPrefix("betterwispr-meeting-") && file.pathExtension == "caf" {
+        for file in files where file.lastPathComponent.hasPrefix("pocketflow-studio-meeting-") && file.pathExtension == "caf" {
             try? FileManager.default.removeItem(at: file)
         }
     }

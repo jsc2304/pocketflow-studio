@@ -30,7 +30,7 @@ struct HistoryView: View {
                         }
                         .buttonStyle(.borderless)
                     }
-                    footnote(L10n.tr("When a dictation can’t be transcribed, BetterWispr keeps its audio on this Mac for up to 7 days, or less if Keep history is shorter. It keeps the newest 20, up to 1 GB, and leaves them out of backups."))
+                    footnote(L10n.tr("When a dictation can’t be transcribed, PocketFlow Studio keeps its audio on this Mac for up to 7 days, or less if Keep history is shorter. It keeps the newest 20, up to 1 GB, and leaves them out of backups."))
                 } header: {
                     Text(L10n.tr("Not transcribed"))
                 }
@@ -48,7 +48,7 @@ struct HistoryView: View {
                         )
                     }
                     if model.settings.learnCorrections {
-                        footnote(L10n.tr("Fix a misheard word with the pencil and BetterWispr adds it to Vocabulary, so it is spelled right next time."))
+                        footnote(L10n.tr("Fix a misheard word with the pencil and PocketFlow Studio adds it to Vocabulary, so it is spelled right next time."))
                     }
                 } header: {
                     Text(L10n.tr("%ld dictations", filteredHistory.count))

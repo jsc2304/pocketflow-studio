@@ -28,7 +28,7 @@ final class TranscriptionModel {
     @ObservationIgnored private var provider: (any SpeechProvider)?
 
     init(store: MeetingStore? = nil) {
-        self.store = store ?? MeetingStore(directory: URL.applicationSupportDirectory.appending(path: "BetterWispr/Transcriptions"))
+        self.store = store ?? MeetingStore(directory: URL.applicationSupportDirectory.appending(path: "PocketFlow Studio/Transcriptions"))
         if store == nil { Self.removeLeftovers() }
         let loaded = self.store.load()
         transcripts = loaded.meetings
@@ -170,7 +170,7 @@ final class TranscriptionModel {
     private static func removeLeftovers() {
         let folder = FileManager.default.temporaryDirectory
         let items = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []
-        for item in items where item.lastPathComponent.hasPrefix("betterwispr-media-") {
+        for item in items where item.lastPathComponent.hasPrefix("pocketflow-studio-media-") {
             try? FileManager.default.removeItem(at: item)
         }
     }

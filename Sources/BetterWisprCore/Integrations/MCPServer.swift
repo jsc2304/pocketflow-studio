@@ -3,7 +3,7 @@ import Foundation
 /// A read-only MCP server over standard input and output that shares saved meetings while Connected apps is on.
 public struct MCPServer: Sendable {
     public static let protocolVersions = ["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"]
-    static let offMessage = "Connected apps is off. Turn it on in BetterWispr Settings > Connected apps, then try again."
+    static let offMessage = "Connected apps is off. Turn it on in PocketFlow Studio Settings > Connected apps, then try again."
 
     let meetings: MeetingStore
     let settings: LocalStore
@@ -48,10 +48,10 @@ public struct MCPServer: Sendable {
             "capabilities": ["tools": [String: Any]()],
             "serverInfo": [
                 "name": "betterwispr",
-                "title": "BetterWispr",
+                "title": "PocketFlow Studio",
                 "version": Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev",
             ],
-            "instructions": "Read-only access to the meeting notes saved in BetterWispr on this Mac. Find a meeting with list_meetings or search_meetings, then read it with get_meeting.",
+            "instructions": "Read-only access to the meeting notes saved in PocketFlow Studio on this Mac. Find a meeting with list_meetings or search_meetings, then read it with get_meeting.",
         ]
     }
 
@@ -175,7 +175,7 @@ private enum MeetingTool: String, CaseIterable {
 
     func run(_ arguments: ToolArguments, store: MeetingStore) throws(ToolFailure) -> String {
         let (meetings, unreadable) = store.load()
-        let skipped = unreadable.isEmpty ? [] : ["Skipped \(unreadable.count) meeting file\(unreadable.count == 1 ? "" : "s") BetterWispr could not read."]
+        let skipped = unreadable.isEmpty ? [] : ["Skipped \(unreadable.count) meeting file\(unreadable.count == 1 ? "" : "s") PocketFlow Studio could not read."]
         switch self {
         case .list:
             let inRange = try arguments.startFilter()

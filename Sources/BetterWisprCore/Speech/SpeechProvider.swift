@@ -190,7 +190,7 @@ public enum SpeechError: LocalizedError, Sendable {
         case .invalidModel: L10n.tr("This speech provider cannot load the selected model.")
         case .notPrepared: L10n.tr("Prepare a speech model before starting dictation.")
         case .busy: L10n.tr("A speech operation is already running.")
-        case .permissionDenied: L10n.tr("Allow Speech Recognition for BetterWispr in System Settings → Privacy & Security.")
+        case .permissionDenied: L10n.tr("Allow Speech Recognition for PocketFlow Studio in System Settings → Privacy & Security.")
         case .onDeviceUnavailable(let locale): L10n.tr("Apple on-device recognition is unavailable for %@. Download a model in Models for offline dictation.", String(locale))
         case .timedOut: L10n.tr("On-device speech recognition timed out. Try a shorter recording or a Whisper model.")
         case .emptyAudio: L10n.tr("The recording contains no audio.")

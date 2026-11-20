@@ -62,13 +62,13 @@ import Testing
         return url
     }
     let day: TimeInterval = 24 * 3600
-    let abandoned = try file("betterwispr-\(UUID().uuidString).caf", age: day + 60)
+    let abandoned = try file("pocketflow-studio-\(UUID().uuidString).caf", age: day + 60)
     let kept = [
-        try file("betterwispr-\(UUID().uuidString).caf", age: day - 60),
-        try file("betterwispr-warm-up.caf", age: day * 2),
-        try file("betterwispr-warm-up-\(UUID().uuidString).caf", age: day * 2),
-        try file("betterwispr-meeting-\(UUID().uuidString).caf", age: day * 2),
-        try file("betterwispr-\(UUID().uuidString).wav", age: day * 2),
+        try file("pocketflow-studio-\(UUID().uuidString).caf", age: day - 60),
+        try file("pocketflow-studio-warm-up.caf", age: day * 2),
+        try file("pocketflow-studio-warm-up-\(UUID().uuidString).caf", age: day * 2),
+        try file("pocketflow-studio-meeting-\(UUID().uuidString).caf", age: day * 2),
+        try file("pocketflow-studio-\(UUID().uuidString).wav", age: day * 2),
     ]
 
     AudioRecorder.removeLeftovers(in: folder, now: now)

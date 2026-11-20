@@ -28,11 +28,11 @@ final class NotetakerController {
         panel.minSize = NSSize(width: 380, height: 460)
         panel.standardWindowButton(.miniaturizeButton)?.isHidden = true
         panel.standardWindowButton(.zoomButton)?.isHidden = true
-        let expand = NSButton(image: NSImage(systemSymbolName: "arrow.up.left.and.arrow.down.right", accessibilityDescription: L10n.tr("Open in BetterWispr"))!,
+        let expand = NSButton(image: NSImage(systemSymbolName: "arrow.up.left.and.arrow.down.right", accessibilityDescription: L10n.tr("Open in PocketFlow Studio"))!,
                               target: self, action: #selector(openInDashboard))
         expand.isBordered = false
         expand.contentTintColor = .secondaryLabelColor
-        expand.toolTip = L10n.tr("Open in BetterWispr")
+        expand.toolTip = L10n.tr("Open in PocketFlow Studio")
         expand.frame = NSRect(x: 0, y: 0, width: 40, height: 28)
         let accessory = NSTitlebarAccessoryViewController()
         accessory.view = expand

@@ -102,7 +102,7 @@ private struct WritingModeEditor: View {
                 } header: {
                     Text(L10n.tr("Websites"))
                 } footer: {
-                    Text(L10n.tr("Works in Safari, Chrome, Arc, Brave, Edge and other supported browsers. BetterWispr reads the address through Accessibility when you start dictating, uses it only on this Mac to choose a mode, and never saves or sends it."))
+                    Text(L10n.tr("Works in Safari, Chrome, Arc, Brave, Edge and other supported browsers. PocketFlow Studio reads the address through Accessibility when you start dictating, uses it only on this Mac to choose a mode, and never saves or sends it."))
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
@@ -113,7 +113,7 @@ private struct WritingModeEditor: View {
                 } header: {
                     Text(L10n.tr("Trigger words"))
                 } footer: {
-                    Text(L10n.tr("Say a trigger word at the start or end of a dictation to use this mode. BetterWispr removes it from the text, so pick a phrase you wouldn’t otherwise start or end a sentence with."))
+                    Text(L10n.tr("Say a trigger word at the start or end of a dictation to use this mode. PocketFlow Studio removes it from the text, so pick a phrase you wouldn’t otherwise start or end a sentence with."))
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }

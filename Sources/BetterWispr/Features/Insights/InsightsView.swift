@@ -108,7 +108,7 @@ struct InsightsView: View {
 
     private func shareText(_ insights: UsageInsights) -> String {
         let totals = insights.current
-        return L10n.tr("%@ %ld words with BetterWispr at %@ words per minute, about %@ faster than typing.", insights.period.shareOpening, totals.words, String(totals.wordsPerMinute), formattedTime(totals.timeSaved))
+        return L10n.tr("%@ %ld words with PocketFlow Studio at %@ words per minute, about %@ faster than typing.", insights.period.shareOpening, totals.words, String(totals.wordsPerMinute), formattedTime(totals.timeSaved))
     }
 }
 

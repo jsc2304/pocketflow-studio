@@ -274,10 +274,10 @@
 			<string>jours de suite</string>
 		</dict>
 	</dict>
-	<key>%@ %ld words with BetterWispr at %@ words per minute, about %@ faster than typing.</key>
+	<key>%@ %ld words with PocketFlow Studio at %@ words per minute, about %@ faster than typing.</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%1$@ %2$#@count@ avec BetterWispr, à %3$@ mots par minute, soit environ %4$@ de moins qu’au clavier.</string>
+		<string>%1$@ %2$#@count@ avec PocketFlow Studio, à %3$@ mots par minute, soit environ %4$@ de moins qu’au clavier.</string>
 		<key>count</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>

@@ -96,8 +96,8 @@ struct NotesModelSettings: View {
                 Text(item.detail).font(.caption).foregroundStyle(.secondary)
             }
             Text(model.settings.allowsAnySignIn(cli)
-                 ? L10n.tr("Install the latest %@ CLI and run %@ in Terminal. BetterWispr uses that sign-in.", String(cli.name), String(cli.loginCommand))
-                 : L10n.tr("Install the latest %@ CLI and run %@ in Terminal. BetterWispr uses that sign-in; subscription limits apply.", String(cli.name), String(cli.loginCommand)))
+                 ? L10n.tr("Install the latest %@ CLI and run %@ in Terminal. PocketFlow Studio uses that sign-in.", String(cli.name), String(cli.loginCommand))
+                 : L10n.tr("Install the latest %@ CLI and run %@ in Terminal. PocketFlow Studio uses that sign-in; subscription limits apply.", String(cli.name), String(cli.loginCommand)))
                 .font(.caption).foregroundStyle(.secondary)
             if cli == .claudeCode { ClaudeCodeAnySignInSettings(model: model, testing: testing) }
         }

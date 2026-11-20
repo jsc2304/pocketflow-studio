@@ -17,7 +17,7 @@ enum OnboardingStep: Int, CaseIterable {
     var subtitle: String {
         switch self {
         case .welcome: L10n.tr("Speak in any app and your words appear where your cursor is.")
-        case .permissions: L10n.tr("BetterWispr needs your microphone to hear you. Accessibility lets it paste text for you.")
+        case .permissions: L10n.tr("PocketFlow Studio needs your microphone to hear you. Accessibility lets it paste text for you.")
         case .model: L10n.tr("Choose a speech model. Downloaded models run offline.")
         case .practice: L10n.tr("Say a sentence and watch it turn into text.")
         }

@@ -17,7 +17,7 @@ private let englishStylePreview = StylePreview(locale: Locale(identifier: "en_US
     #expect(frenchStylePreview.lightCleanupDetail.contains("dictées en anglais"))
     #expect(frenchStylePreview.lightCleanupDetail.contains("« um »"))
     #expect(frenchStylePreview.spokenTitle == "Vous dites (exemple français)")
-    #expect(frenchStylePreview.cleanedTitle == "BetterWispr écrit (exemple français)")
+    #expect(frenchStylePreview.cleanedTitle == "PocketFlow Studio écrit (exemple français)")
 }
 
 @Test func englishCleanupPreviewsKeepTheirExistingBehavior() {
@@ -28,7 +28,7 @@ private let englishStylePreview = StylePreview(locale: Locale(identifier: "en_US
     #expect(englishStylePreview.cleanedSample(for: .light) == "Hey Sam are we still on for lunch? I think we should leave early to beat the traffic.")
     #expect(englishStylePreview.cleanedSample(for: .medium) == "Hey Sam, are we still on for lunch? I think we should leave early to beat the traffic.")
     #expect(englishStylePreview.spokenTitle == "You say")
-    #expect(englishStylePreview.cleanedTitle == "BetterWispr types")
+    #expect(englishStylePreview.cleanedTitle == "PocketFlow Studio types")
 }
 
 @Test func frenchToneSamplesCoverEveryContextAndKeepTheirLimitsVisible() {

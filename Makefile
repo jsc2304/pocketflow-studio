@@ -1,6 +1,6 @@
 SHELL := /bin/bash -o pipefail
 
-APP_NAME     = BetterWispr
+APP_NAME     = PocketFlow Studio
 DERIVED_DIR  = .build
 APP_DEBUG    = $(DERIVED_DIR)/debug/$(APP_NAME).app
 APP_RELEASE  = $(DERIVED_DIR)/release/$(APP_NAME).app
@@ -19,7 +19,7 @@ help: ## Show this help
 
 dev: test run ## Local testing: build, run all checks, then launch the debug app
 
-setup-notary: ## Save BetterWispr notarization credentials in Keychain (once)
+setup-notary: ## Save PocketFlow Studio notarization credentials in Keychain (once)
 	@bash scripts/release.sh --setup-notary
 
 ship: ## Build, sign, notarize and staple separate Apple Silicon and Intel DMGs
@@ -35,9 +35,7 @@ release: ## Release app bundle for this Mac
 
 run: build ## Build and launch (debug)
 	@echo "==> Launching $(APP_NAME)..."
-	@pkill -x $(APP_NAME) 2>/dev/null || true
-	@sleep 1
-	@open -n "$(abspath $(APP_DEBUG))"
+	@open "$(APP_DEBUG)"
 
 test: ## Unit tests, evaluator and release script checks
 	@python3 scripts/localization.py check
@@ -68,7 +66,7 @@ dmg: release ## Create unsigned DMG for local testing
 clean: ## Remove build artifacts
 	@echo "==> Cleaning..."
 	@swift package clean
-	@rm -rf $(APP_DEBUG) $(APP_RELEASE) $(SAMPLES) $(DMG_DIR)
+	@rm -rf "$(APP_DEBUG)" "$(APP_RELEASE)" "$(SAMPLES)" "$(DMG_DIR)"
 	@echo "==> Clean."
 
 version: ## Print current version

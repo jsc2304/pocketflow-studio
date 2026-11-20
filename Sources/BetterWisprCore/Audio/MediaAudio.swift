@@ -9,7 +9,7 @@ public enum MediaAudioError: LocalizedError, Equatable {
 
     public var errorDescription: String? {
         switch self {
-        case .unreadable(let name): L10n.tr("BetterWispr can’t read the audio in “%@”. Choose an %@ file.", String(name), String(Self.formats))
+        case .unreadable(let name): L10n.tr("PocketFlow Studio can’t read the audio in “%@”. Choose an %@ file.", String(name), String(Self.formats))
         case .noAudio(let name): L10n.tr("“%@” has no audio track. Choose an %@ file.", String(name), String(Self.formats))
         }
     }
@@ -82,7 +82,7 @@ public actor MediaAudio {
         let end = frames > Self.longest
             ? Self.cut(levels: Self.levels(samples), minimum: Self.shortest, maximum: min(Self.longest, frames - Self.shortestTail)) * Self.frame
             : samples.count
-        let url = FileManager.default.temporaryDirectory.appending(path: "betterwispr-media-\(UUID().uuidString).caf")
+        let url = FileManager.default.temporaryDirectory.appending(path: "pocketflow-studio-media-\(UUID().uuidString).caf")
         do {
             try write(samples[..<end], to: url)
         } catch {

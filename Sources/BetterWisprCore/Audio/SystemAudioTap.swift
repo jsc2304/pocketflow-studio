@@ -25,12 +25,12 @@ final class SystemAudioTap {
 
     func prepare() async throws -> AVAudioFormat {
         let description = CATapDescription(stereoGlobalTapButExcludeProcesses: Self.ownProcess().map { [$0] } ?? [])
-        description.name = "BetterWispr Meeting Tap"
+        description.name = "PocketFlow Studio Meeting Tap"
         description.isPrivate = true
         description.muteBehavior = muteBehavior
         try check(AudioHardwareCreateProcessTap(description, &tapID), tapID, L10n.tr("create the system audio tap"))
         let aggregate: [String: Any] = [
-            kAudioAggregateDeviceNameKey: "BetterWispr Meeting Audio",
+            kAudioAggregateDeviceNameKey: "PocketFlow Studio Meeting Audio",
             kAudioAggregateDeviceUIDKey: "org.betterwispr.meeting-tap.\(UUID().uuidString)",
             kAudioAggregateDeviceIsPrivateKey: true,
             kAudioAggregateDeviceTapListKey: [[kAudioSubTapUIDKey: description.uuid.uuidString, kAudioSubTapDriftCompensationKey: true]],

@@ -169,7 +169,7 @@ private struct TranscribeHome: View {
                         .textSelection(.enabled)
                 }
             } else {
-                Text(L10n.tr("Links need yt-dlp, a free open-source downloader. BetterWispr downloads it from GitHub and checks it against the published checksum only when you install it."))
+                Text(L10n.tr("Links need yt-dlp, a free open-source downloader. PocketFlow Studio downloads it from GitHub and checks it against the published checksum only when you install it."))
                     .fixedSize(horizontal: false, vertical: true)
                 Button(transcriptions.isInstallingYTDLP ? L10n.tr("Installing yt-dlp…") : L10n.tr("Install yt-dlp")) { transcriptions.installYTDLP() }
                     .disabled(transcriptions.isInstallingYTDLP)

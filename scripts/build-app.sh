@@ -10,16 +10,19 @@ fi
 python3 scripts/localization.py check
 swift build -c "$configuration" --arch "$architecture" --product BetterWispr
 binary_dir="$(swift build -c "$configuration" --arch "$architecture" --show-bin-path)"
-app="$binary_dir/BetterWispr.app"
+app="$binary_dir/PocketFlow Studio.app"
 mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources" "$app/Contents/Frameworks"
 # SwiftPM checkout licenses/resources can be read-only after the first copy.
 chmod -R u+w "$app"
-cp "$binary_dir/BetterWispr" "$app/Contents/MacOS/BetterWispr"
-minimum_macos="$(vtool -show-build "$app/Contents/MacOS/BetterWispr" | awk '$1 == "minos" {print $2; exit}')"
-vtool -set-build-version macos "$minimum_macos" "$(xcrun --sdk macosx --show-sdk-version)" -replace -output "$app/Contents/MacOS/BetterWispr" "$app/Contents/MacOS/BetterWispr"
+cp "$binary_dir/BetterWispr" "$app/Contents/MacOS/PocketFlowStudio"
+minimum_macos="$(vtool -show-build "$app/Contents/MacOS/PocketFlowStudio" | awk '$1 == "minos" {print $2; exit}')"
+vtool -set-build-version macos "$minimum_macos" "$(xcrun --sdk macosx --show-sdk-version)" -replace -output "$app/Contents/MacOS/PocketFlowStudio" "$app/Contents/MacOS/PocketFlowStudio"
 cp Resources/Info.plist "$app/Contents/Info.plist"
 version="$(tr -d '[:space:]' < VERSION)"
 /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $version" -c "Set :CFBundleVersion $version" "$app/Contents/Info.plist"
+if [[ -n "${SPARKLE_PUBLIC_KEY:-}" ]]; then
+    plutil -insert SUPublicEDKey -string "$SPARKLE_PUBLIC_KEY" "$app/Contents/Info.plist"
+fi
 icon_sources=(Sources/BetterWispr/Design/BrandMark.swift scripts/render-app-icon.swift)
 icon=.build/AppIcon.icns
 if [[ ! -f "$icon" || "${icon_sources[0]}" -nt "$icon" || "${icon_sources[1]}" -nt "$icon" ]]; then

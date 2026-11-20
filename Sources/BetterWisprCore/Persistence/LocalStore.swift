@@ -13,7 +13,7 @@ public struct LocalStore: Sendable {
     public var stateURL: URL { directory.appendingPathComponent("workspace.json") }
 
     public init(directory: URL? = nil) {
-        self.directory = directory ?? URL.applicationSupportDirectory.appendingPathComponent("BetterWispr", isDirectory: true)
+        self.directory = directory ?? URL.applicationSupportDirectory.appendingPathComponent("PocketFlow Studio", isDirectory: true)
     }
 
     public func load() throws -> SavedState {
@@ -37,7 +37,7 @@ public enum StoreError: LocalizedError {
     case unsupportedVersion(Int)
     public var errorDescription: String? {
         switch self {
-        case .unsupportedVersion(let version): L10n.tr("This workspace uses version %@. Update BetterWispr before opening it.", String(version))
+        case .unsupportedVersion(let version): L10n.tr("This workspace uses version %@. Update PocketFlow Studio before opening it.", String(version))
         }
     }
 }

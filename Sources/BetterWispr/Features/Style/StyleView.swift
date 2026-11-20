@@ -246,7 +246,7 @@ struct StyleView: View {
     private static let screenContextCaption = L10n.tr("When you speak English to Parakeet with the phrase booster installed, reads your selected text and the window you dictate into on this Mac, and uses the names in them to fix words Parakeet heard as misspellings, such as superbase becoming Supabase. Correctly spelled words stay as heard. With Medium cleanup, your selected text, clipboard and window text also go to your cleanup model, which may be a cloud service. Nothing is read while a password field is active, and clipboard items marked as passwords are skipped.")
 
     private var screenTextCaption: String {
-        let status = CGPreflightScreenCaptureAccess() ? L10n.tr("Screen Recording is allowed.") : L10n.tr("Needs Screen Recording. Allow BetterWispr under Privacy & Security, Screen & System Audio Recording in System Settings, then reopen BetterWispr.")
+        let status = CGPreflightScreenCaptureAccess() ? L10n.tr("Screen Recording is allowed.") : L10n.tr("Needs Screen Recording. Allow PocketFlow Studio under Privacy & Security, Screen & System Audio Recording in System Settings, then reopen PocketFlow Studio.")
         return L10n.tr("When an app shares too little text, reads its window from a screenshot on this Mac. With Medium cleanup, that text also goes to your cleanup model, which may be a cloud service. %@", String(status))
     }
 

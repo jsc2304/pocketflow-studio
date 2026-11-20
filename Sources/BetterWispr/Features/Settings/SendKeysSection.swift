@@ -39,7 +39,7 @@ struct SendKeysSection: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 11)
         } footer: {
-            Text(L10n.tr("BetterWispr presses the key you record after pasting into these apps, so a dictation submits instead of sitting in the field. Lists apps that are open or that you dictated into recently. Unlike Send to Claude, a send key fires wherever you are in the app, so pick one that can’t do damage in the app’s other fields, and hold Shift while dictating to paste only. Terminal and iTerm2 aren’t listed, because a key there could run a shell command; Send to Claude covers Claude Code in them. Needs Accessibility."))
+            Text(L10n.tr("PocketFlow Studio presses the key you record after pasting into these apps, so a dictation submits instead of sitting in the field. Lists apps that are open or that you dictated into recently. Unlike Send to Claude, a send key fires wherever you are in the app, so pick one that can’t do damage in the app’s other fields, and hold Shift while dictating to paste only. Terminal and iTerm2 aren’t listed, because a key there could run a shell command; Send to Claude covers Claude Code in them. Needs Accessibility."))
         }
         .onAppear { choices = AppChoice.offered(recent: model.history.compactMap(\.appBundleID)).filter { SendAfterPaste.allowsRule(for: $0.id) } }
         .onChange(of: refusal) { _, text in

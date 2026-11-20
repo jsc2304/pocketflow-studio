@@ -100,7 +100,7 @@ struct ModelsView: View {
 
             Section {
                 if model.speakerDetectionInstalled {
-                    Label(L10n.tr("Speaker detection is on. BetterWispr tells the voices on the call apart on this Mac and labels them Speaker 1, Speaker 2 and so on. The labels are a first guess that can change while the meeting records, and a more careful pass replaces them when it ends. Rename them above the transcript."), systemImage: "checkmark.circle")
+                    Label(L10n.tr("Speaker detection is on. PocketFlow Studio tells the voices on the call apart on this Mac and labels them Speaker 1, Speaker 2 and so on. The labels are a first guess that can change while the meeting records, and a more careful pass replaces them when it ends. Rename them above the transcript."), systemImage: "checkmark.circle")
                         .foregroundStyle(.secondary)
                     Toggle(isOn: setting(\.separateRoomVoices)) {
                         Text(L10n.tr("Tell apart people in the room"))
@@ -122,13 +122,13 @@ struct ModelsView: View {
                         Text(L10n.tr("My voice"))
                         Text(model.meetings.isRecordingMyVoice
                             ? L10n.tr("Recording. Keep talking for 30 seconds.")
-                            : model.meetings.myVoiceMessage ?? L10n.tr("Record 30 seconds of yourself talking without long pauses. BetterWispr saves a profile of your voice on this Mac and deletes the recording. When it tells apart people in the room, the microphone voice closest to your profile stays Me, even if someone near you talks more. Without a profile, or when no voice is close to it, the voice heard longest stays Me. Your profile is never uploaded, but Time Machine backs it up. Forget Voices deletes it too."))
+                            : model.meetings.myVoiceMessage ?? L10n.tr("Record 30 seconds of yourself talking without long pauses. PocketFlow Studio saves a profile of your voice on this Mac and deletes the recording. When it tells apart people in the room, the microphone voice closest to your profile stays Me, even if someone near you talks more. Without a profile, or when no voice is close to it, the voice heard longest stays Me. Your profile is never uploaded, but Time Machine backs it up. Forget Voices deletes it too."))
                             .multilineTextAlignment(.leading)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     Toggle(isOn: setting(\.rememberVoices)) {
                         Text(L10n.tr("Remember named voices"))
-                        Text(L10n.tr("When you name a speaker, a profile of that voice is saved on this Mac. In later meetings, a speaker who sounds like a saved voice shows that name as a suggestion in its name menu, and no name is filled in until you choose one. Name speakers before you quit BetterWispr, because a meeting’s voices are held only in memory until then. A voice profile can identify a person, so ask people before you name them. Profiles are never uploaded, but Time Machine backs them up. Suggestions use SpeakerKit’s cutoff for grouping voices within one meeting, which wasn’t tuned for matching across meetings."))
+                        Text(L10n.tr("When you name a speaker, a profile of that voice is saved on this Mac. In later meetings, a speaker who sounds like a saved voice shows that name as a suggestion in its name menu, and no name is filled in until you choose one. Name speakers before you quit PocketFlow Studio, because a meeting’s voices are held only in memory until then. A voice profile can identify a person, so ask people before you name them. Profiles are never uploaded, but Time Machine backs them up. Suggestions use SpeakerKit’s cutoff for grouping voices within one meeting, which wasn’t tuned for matching across meetings."))
                             .multilineTextAlignment(.leading)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }

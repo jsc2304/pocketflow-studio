@@ -891,7 +891,7 @@ final class AppModel {
                 let finishedAt = ContinuousClock.now
                 await live?.stop()
                 if self.live === live { self.live = nil }
-                Logger(subsystem: "org.betterwispr.app", category: "DictationTiming").notice("Recording stopped: finish=\(String(describing: stoppedAt.duration(to: finishedAt)), privacy: .public) liveStop=\(String(describing: finishedAt.duration(to: .now)), privacy: .public) pieces=\(live?.segments.count ?? 0) duration=\(audio.duration)")
+                Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "DictationTiming").notice("Recording stopped: finish=\(String(describing: stoppedAt.duration(to: finishedAt)), privacy: .public) liveStop=\(String(describing: finishedAt.duration(to: .now)), privacy: .public) pieces=\(live?.segments.count ?? 0) duration=\(audio.duration)")
                 let edits = self.pieceEdits
                 self.pieceEdits = nil
                 let streamed = live.flatMap { live in
@@ -1003,7 +1003,7 @@ final class AppModel {
                 } else {
                     raw = pieces.joined(separator: " ")
                 }
-                Logger(subsystem: "org.betterwispr.app", category: "DictationTiming").notice("Recognition completed: elapsed=\(String(describing: recognitionStarted.duration(to: .now)), privacy: .public) pieces=\(pieces.count) empty=\(raw.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)")
+                Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "DictationTiming").notice("Recognition completed: elapsed=\(String(describing: recognitionStarted.duration(to: .now)), privacy: .public) pieces=\(pieces.count) empty=\(raw.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)")
                 try Task.checkCancellation()
                 guard self.generation == token else { return }
                 let recognized = recording.settings.chineseScript?.convert(raw, language: language) ?? raw
@@ -1039,7 +1039,7 @@ final class AppModel {
                         styledFormat = format
                     }
                     spoken = StyleFormatter.apply(tone, to: formatted ?? spoken)
-                    Logger(subsystem: "org.betterwispr.app", category: "DictationTiming").notice("Formatting completed: category=\(format.category.rawValue, privacy: .public) accepted=\(formatted != nil)")
+                    Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "DictationTiming").notice("Formatting completed: category=\(format.category.rawValue, privacy: .public) accepted=\(formatted != nil)")
                 } else if english, let email = EmailDictation.compose(spoken) {
                     spoken = email
                 } else if english, cleanup == .medium, MeetingNotesGenerator.availability(settings: writingSettings) == .available {
@@ -1056,7 +1056,7 @@ final class AppModel {
                     }, layingOut: {
                         await TranscriptPolisher.layOutList($0, of: spoken, settings: writingSettings, instructions: instructions)
                     })
-                    Logger(subsystem: "org.betterwispr.app", category: "DictationTiming").notice("Editing completed: elapsed=\(String(describing: editStarted.duration(to: .now)), privacy: .public) pieces=\(prepared.count) reused=\(reused) accepted=\(polished != nil)")
+                    Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "DictationTiming").notice("Editing completed: elapsed=\(String(describing: editStarted.duration(to: .now)), privacy: .public) pieces=\(prepared.count) reused=\(reused) accepted=\(polished != nil)")
                     try Task.checkCancellation()
                     guard self.generation == token else { return }
                     spoken = StyleFormatter.apply(tone, to: polished ?? spoken)
@@ -1095,7 +1095,7 @@ final class AppModel {
                     self.phase = .transcribing
                 }
                 let result = approved ? try await integration?.deliver(delivered, to: recording.target) : OutputResult.copied
-                Logger(subsystem: "org.betterwispr.app", category: "DictationTiming").notice("Dictation delivered: sinceStop=\(String(describing: recording.stoppedAt.duration(to: .now)), privacy: .public)")
+                Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "DictationTiming").notice("Dictation delivered: sinceStop=\(String(describing: recording.stoppedAt.duration(to: .now)), privacy: .public)")
                 guard self.generation == token else { return }
                 if result == .copiedForManualPaste && !AXIsProcessTrusted() { self.fail(.pasteBlocked) }
                 else if result == .copiedForManualPaste {
@@ -1176,7 +1176,7 @@ final class AppModel {
 
     func cancelRecording() {
         guard isBusy else { return }
-        Logger(subsystem: "org.betterwispr.app", category: "Dictation").notice("Dictation cancelled: recording=\(self.phase == .recording)")
+        Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "Dictation").notice("Dictation cancelled: recording=\(self.phase == .recording)")
         let recoverable: DictationRecording?
         if phase == .recording, let audio = try? recorder.stop() {
             let recording = sessionRecording(audio)
@@ -1252,7 +1252,7 @@ final class AppModel {
     private func keepAtQuit(_ audio: URL) {
         guard settings.saveHistory else { return }
         do { try failedDictationStore.keep(audio) } catch {
-            Logger(subsystem: "org.betterwispr.app", category: "FailedDictations").error("Couldn’t keep a dictation at quit: \(error.localizedDescription, privacy: .public)")
+            Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "FailedDictations").error("Couldn’t keep a dictation at quit: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -1275,7 +1275,7 @@ final class AppModel {
         do {
             recording.keptURL = try failedDictationStore.keep(recording.audio.url)
         } catch {
-            Logger(subsystem: "org.betterwispr.app", category: "FailedDictations").error("Couldn’t keep a failed dictation: \(error.localizedDescription, privacy: .public)")
+            Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "FailedDictations").error("Couldn’t keep a failed dictation: \(error.localizedDescription, privacy: .public)")
         }
         failedDictations = failedDictationStore.list()
     }
@@ -1433,7 +1433,7 @@ final class AppModel {
                   let clip = try? WarmUpClip.url() else { return }
             let started = ContinuousClock.now
             let finished = (try? await provider.transcribe(audioURL: clip, language: nil, vocabulary: [])) != nil
-            Logger(subsystem: "org.betterwispr.app", category: "DictationTiming").notice("Warm-up \(finished ? "completed" : "stopped", privacy: .public): model=\(model.id, privacy: .public) elapsed=\(String(describing: started.duration(to: .now)), privacy: .public)")
+            Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "DictationTiming").notice("Warm-up \(finished ? "completed" : "stopped", privacy: .public): model=\(model.id, privacy: .public) elapsed=\(String(describing: started.duration(to: .now)), privacy: .public)")
         }
     }
 
@@ -1819,7 +1819,7 @@ final class AppModel {
             guard settings.notifyLearnedCorrections else { return }
             let ids = Set(added.map(\.id))
             ToastWindow.shared.show(Toast(title: L10n.tr("Learned %@", String(added.map { "“\($0.replacement.isEmpty ? $0.phrase : $0.replacement)”" }.joined(separator: ", "))),
-                                          message: L10n.tr("BetterWispr will spell it this way next time. Manage it in Vocabulary."),
+                                          message: L10n.tr("PocketFlow Studio will spell it this way next time. Manage it in Vocabulary."),
                                           systemImage: "sparkles",
                                           action: Toast.Action(title: L10n.tr("Undo")) { [weak self] in
                                               guard let self else { return }
@@ -1916,6 +1916,7 @@ final class AppModel {
             statusMessage = L10n.tr("Could not save settings: %@", String(error.localizedDescription))
         }
         applyAppearance()
+        if !settings.stopAfterCall { meetings.capturing?.callEnd = nil }
         if startsServices { meetingDetector.isEnabled = settings.detectMeetings }
         meetingDetector.timeout = settings.meetingPromptTimeout.seconds
         meetings.remembersVoices = settings.rememberVoices
@@ -1928,7 +1929,7 @@ final class AppModel {
         guard application.activationPolicy() != policy else { return }
         if !application.setActivationPolicy(policy) {
             settings.showInDock = application.activationPolicy() == .regular
-            statusMessage = L10n.tr("Could not change Dock visibility. Try restarting BetterWispr.")
+            statusMessage = L10n.tr("Could not change Dock visibility. Try restarting PocketFlow Studio.")
         }
     }
 
@@ -1942,7 +1943,7 @@ final class AppModel {
 
     private func persist() throws {
         guard storageIsReadable else {
-            throw NSError(domain: "BetterWispr", code: 1, userInfo: [NSLocalizedDescriptionKey:
+            throw NSError(domain: "PocketFlow Studio", code: 1, userInfo: [NSLocalizedDescriptionKey:
                 L10n.tr("The existing workspace could not be read, so it will not be overwritten. Back it up in %@ and restart.", String(store.directory.path))])
         }
         var state = SavedState()
@@ -1955,7 +1956,7 @@ final class AppModel {
     func exportHistory() {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [.json]
-        panel.nameFieldStringValue = "BetterWispr-history.json"
+        panel.nameFieldStringValue = "PocketFlow Studio-history.json"
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do {
             let encoder = JSONEncoder()
@@ -2102,7 +2103,7 @@ final class AppModel {
             failure.message += L10n.tr(" Your earlier dictation was pasted but not sent.")
             continuesIn = nil
         }
-        Logger(subsystem: "org.betterwispr.app", category: "Dictation").error("Dictation failed: \(failure.title, privacy: .public) \(failure.message, privacy: .public)")
+        Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "Dictation").error("Dictation failed: \(failure.title, privacy: .public) \(failure.message, privacy: .public)")
         statusMessage = failure.message
         present(.failed(failure), for: 6)
         playFeedback(.attention)

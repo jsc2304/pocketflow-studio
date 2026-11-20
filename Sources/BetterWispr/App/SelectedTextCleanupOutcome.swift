@@ -32,7 +32,7 @@ enum SelectedTextCleanupOutcome: Equatable {
         case .busy:
             Toast(title: L10n.tr("Finish dictating first"), message: L10n.tr("Then press the shortcut again."), systemImage: "waveform", isError: true)
         case .needsAccessibility:
-            Toast(title: L10n.tr("Allow Accessibility"), message: L10n.tr("BetterWispr needs it to read and replace the selected text."), systemImage: "lock.shield",
+            Toast(title: L10n.tr("Allow Accessibility"), message: L10n.tr("PocketFlow Studio needs it to read and replace the selected text."), systemImage: "lock.shield",
                   isError: true, action: Toast.Action(title: L10n.tr("Allow"), perform: allow))
         case .noOtherApp:
             Toast(title: L10n.tr("Select text in another app"), message: L10n.tr("Then press the shortcut to clean it up."), systemImage: "text.cursor", isError: true)

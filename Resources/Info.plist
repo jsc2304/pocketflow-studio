@@ -2,11 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleIdentifier</key><string>org.betterwispr.app</string>
+    <key>CFBundleIdentifier</key><string>io.github.jsc2304.pocketflow-studio</string>
     <key>CFBundleDevelopmentRegion</key><string>en</string>
-    <key>CFBundleName</key><string>BetterWispr</string>
-    <key>CFBundleDisplayName</key><string>BetterWispr</string>
-    <key>CFBundleExecutable</key><string>BetterWispr</string>
+    <key>CFBundleName</key><string>PocketFlow Studio</string>
+    <key>CFBundleDisplayName</key><string>PocketFlow Studio</string>
+    <key>CFBundleExecutable</key><string>PocketFlowStudio</string>
     <key>CFBundleIconFile</key><string>AppIcon</string>
     <key>CFBundlePackageType</key><string>APPL</string>
     <key>CFBundleShortVersionString</key><string>0.1.0</string>
@@ -14,14 +14,13 @@
     <key>LSMinimumSystemVersion</key><string>14.0</string>
     <key>LSUIElement</key><true/>
     <key>NSHighResolutionCapable</key><true/>
-    <key>NSAppleEventsUsageDescription</key><string>BetterWispr pauses Music and Spotify while you dictate, and asks Terminal and iTerm2 which tab is in front so Send to Claude presses Return only where Claude Code runs. Each is used only when you turn it on in Settings.</string>
-    <key>NSAudioCaptureUsageDescription</key><string>BetterWispr records the other side of a meeting when you start meeting notes, and mutes other apps while you dictate when you turn on Mute other apps while dictating. Audio is processed on this Mac, sent to the API connection you select, or sent to ChatGPT when you select Codex subscription transcription. Temporary recordings are deleted afterwards.</string>
-    <key>NSCalendarsFullAccessUsageDescription</key><string>When you connect Calendar, BetterWispr shows your upcoming meetings and reads the event under way as you start meeting notes, to name the note and list who was invited. It reads the calendars already on this Mac and never changes them.</string>
-    <key>NSMicrophoneUsageDescription</key><string>BetterWispr records your microphone when you start dictation. Audio is processed on this Mac, sent to the API connection you select, or sent to ChatGPT when you select Codex subscription transcription. Temporary recordings are deleted afterwards.</string>
-    <key>NSSpeechRecognitionUsageDescription</key><string>BetterWispr uses Apple's on-device speech recognition only when you choose the Apple model. Cloud recognition is never enabled.</string>
+    <key>NSAppleEventsUsageDescription</key><string>PocketFlow Studio pauses Music and Spotify while you dictate, and asks Terminal and iTerm2 which tab is in front so Send to Claude presses Return only where Claude Code runs. Each is used only when you turn it on in Settings.</string>
+    <key>NSAudioCaptureUsageDescription</key><string>PocketFlow Studio records the other side of a meeting when you start meeting notes, and mutes other apps while you dictate when you turn on Mute other apps while dictating. Audio is processed on this Mac, sent to the API connection you select, or sent to ChatGPT when you select Codex subscription transcription. Temporary recordings are deleted afterwards.</string>
+    <key>NSCalendarsFullAccessUsageDescription</key><string>When you connect Calendar, PocketFlow Studio shows your upcoming meetings and reads the event under way as you start meeting notes, to name the note and list who was invited. It reads the calendars already on this Mac and never changes them.</string>
+    <key>NSMicrophoneUsageDescription</key><string>PocketFlow Studio records your microphone when you start dictation. Audio is processed on this Mac, sent to the API connection you select, or sent to ChatGPT when you select Codex subscription transcription. Temporary recordings are deleted afterwards.</string>
+    <key>NSSpeechRecognitionUsageDescription</key><string>PocketFlow Studio uses Apple's on-device speech recognition only when you choose the Apple model. Cloud recognition is never enabled.</string>
     <key>NSAppTransportSecurity</key>
     <dict><key>NSAllowsLocalNetworking</key><true/></dict>
-    <key>SUFeedURL</key><string>https://github.com/opennookorg/betterwispr/releases/latest/download/appcast.xml</string>
-    <key>SUPublicEDKey</key><string>QAcU47kj1MAVrne6SZCZ9c8XhIE0pOP/v3dCIEn+wH0=</string>
+    <key>SUFeedURL</key><string>https://github.com/jsc2304/pocketflow-studio/releases/latest/download/appcast.xml</string>
 </dict>
 </plist>

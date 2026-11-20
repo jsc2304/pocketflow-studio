@@ -86,7 +86,7 @@ final class MediaPauser {
             await previous?.value
             muted = true
             await otherApps?.mute { error in
-                Logger(subsystem: "org.betterwispr.app", category: "MediaPauser").error("Couldn’t mute other apps: \(error.localizedDescription, privacy: .public)")
+                Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "MediaPauser").error("Couldn’t mute other apps: \(error.localizedDescription, privacy: .public)")
                 self.muted = false
                 self.onMuteFailure?(error)
             }

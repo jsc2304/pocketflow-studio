@@ -4,7 +4,7 @@ import Foundation
 
 extension DictationSound {
     static let overrideDirectory = URL.applicationSupportDirectory
-        .appendingPathComponent("BetterWispr/SoundOverrides", isDirectory: true)
+        .appendingPathComponent("PocketFlow Studio/SoundOverrides", isDirectory: true)
     static let systemSoundNames = ((try? FileManager.default.contentsOfDirectory(atPath: "/System/Library/Sounds")) ?? [])
         .map { ($0 as NSString).deletingPathExtension }
         .sorted()

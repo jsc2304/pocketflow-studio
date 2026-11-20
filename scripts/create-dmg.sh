@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ $# != 2 || ! -d "$1/Contents" || "$2" != *.dmg ]]; then
-    echo "Usage: bash scripts/create-dmg.sh BetterWispr.app output.dmg" >&2
+    echo "Usage: bash scripts/create-dmg.sh PocketFlow Studio.app output.dmg" >&2
     exit 1
 fi
 if ! diskutil image --help >/dev/null 2>&1; then
@@ -25,11 +25,11 @@ trap cleanup EXIT
 
 STAGING="$WORK_DIR/staging"
 mkdir -p "$STAGING/.background"
-ditto "$APP_PATH" "$STAGING/BetterWispr.app"
+ditto "$APP_PATH" "$STAGING/PocketFlow Studio.app"
 ln -s /Applications "$STAGING/Applications"
 xcrun swift "$SCRIPT_DIR/dmg-background.swift" "$STAGING/.background/background.tiff"
 
-diskutil image create from "$STAGING" "$WORK_DIR/rw.dmg" --format RAW --volumeName BetterWispr
+diskutil image create from "$STAGING" "$WORK_DIR/rw.dmg" --format RAW --volumeName "PocketFlow Studio"
 attach_output="$(diskutil image attach --nobrowse "$WORK_DIR/rw.dmg")"
 DEVICE="$(awk 'NR == 1 {print $1}' <<< "$attach_output")"
 MOUNT_POINT="$(awk -F '\t' '$3 != "" {print $3; exit}' <<< "$attach_output")"
@@ -55,8 +55,8 @@ on run argv
             set icon size of viewOptions to 128
             set text size of viewOptions to 13
             set background picture of viewOptions to file ".background:background.tiff"
-            set extension hidden of item "BetterWispr.app" to true
-            set position of item "BetterWispr.app" of container window to {164, 160}
+            set extension hidden of item "PocketFlow Studio.app" to true
+            set position of item "PocketFlow Studio.app" of container window to {164, 160}
             set position of item "Applications" of container window to {478, 160}
             update without registering applications
             delay 1

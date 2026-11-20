@@ -274,10 +274,10 @@
 			<string>days in a row</string>
 		</dict>
 	</dict>
-	<key>%@ %ld words with BetterWispr at %@ words per minute, about %@ faster than typing.</key>
+	<key>%@ %ld words with PocketFlow Studio at %@ words per minute, about %@ faster than typing.</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%1$@ %2$#@count@ with BetterWispr at %3$@ words per minute, about %4$@ faster than typing.</string>
+		<string>%1$@ %2$#@count@ with PocketFlow Studio at %3$@ words per minute, about %4$@ faster than typing.</string>
 		<key>count</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>

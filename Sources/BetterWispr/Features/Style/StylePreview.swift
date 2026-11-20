@@ -16,7 +16,7 @@ struct StylePreview {
     }
 
     var spokenTitle: String { localized("You say") }
-    var cleanedTitle: String { localized("BetterWispr types") }
+    var cleanedTitle: String { localized("PocketFlow Studio types") }
 
     var lightCleanupDetail: String {
         localized("Removes filler words like “um” and “you know”, stutters like “we we”, and corrections like “at 5, no, at 6”.")

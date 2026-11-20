@@ -176,7 +176,7 @@ struct NotesDraft: Decodable, Sendable {
         }
         guard let draft = try? JSONDecoder().decode(Self.self, from: Data(text.utf8)),
               !draft.overview.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            throw MeetingNotesError.unavailable(L10n.tr("The model returned notes BetterWispr couldn’t read. Try again or choose another notes model."))
+            throw MeetingNotesError.unavailable(L10n.tr("The model returned notes PocketFlow Studio couldn’t read. Try again or choose another notes model."))
         }
         return draft
     }

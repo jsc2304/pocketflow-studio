@@ -82,12 +82,12 @@ private let english = Locale(identifier: "en_US")
                 == "Busiest day: Monday, \(englishWords)")
         #expect(L10n.localized("Busiest %@: %@, %ld words", locale: french, arguments: ["jour", "lundi", count])
                 == "Période la plus active (jour) : lundi, \(frenchWords)")
-        #expect(L10n.localized("%@ %ld words with BetterWispr at %@ words per minute, about %@ faster than typing.",
+        #expect(L10n.localized("%@ %ld words with PocketFlow Studio at %@ words per minute, about %@ faster than typing.",
                               locale: english, arguments: ["This week", count, "120", "2 minutes"])
-                == "This week \(englishWords) with BetterWispr at 120 words per minute, about 2 minutes faster than typing.")
-        #expect(L10n.localized("%@ %ld words with BetterWispr at %@ words per minute, about %@ faster than typing.",
+                == "This week \(englishWords) with PocketFlow Studio at 120 words per minute, about 2 minutes faster than typing.")
+        #expect(L10n.localized("%@ %ld words with PocketFlow Studio at %@ words per minute, about %@ faster than typing.",
                               locale: french, arguments: ["Cette semaine", count, "120", "2 minutes"])
-                == "Cette semaine \(frenchWords) avec BetterWispr, à 120 mots par minute, soit environ 2 minutes de moins qu’au clavier.")
+                == "Cette semaine \(frenchWords) avec PocketFlow Studio, à 120 mots par minute, soit environ 2 minutes de moins qu’au clavier.")
         #expect(L10n.localized("Not counted: %ld dictations with no app recorded.", locale: english, arguments: [count])
                 == "Not counted: \(count) \(count == 1 ? "dictation" : "dictations") with no app recorded.")
         #expect(L10n.localized("Not counted: %ld dictations with no app recorded.", locale: french, arguments: [count])
@@ -148,7 +148,7 @@ private let english = Locale(identifier: "en_US")
 
 @Test func localizationDiscoversNewBundleLanguagesWithoutRegistrationLists() throws {
     let manager = FileManager.default
-    let temporary = manager.temporaryDirectory.appendingPathComponent("BetterWispr-localization-\(UUID().uuidString)", isDirectory: true)
+    let temporary = manager.temporaryDirectory.appendingPathComponent("PocketFlow Studio-localization-\(UUID().uuidString)", isDirectory: true)
     defer { try? manager.removeItem(at: temporary) }
     let resources = temporary.appendingPathComponent("Fixture.bundle/Contents/Resources", isDirectory: true)
     try manager.createDirectory(at: resources, withIntermediateDirectories: true)

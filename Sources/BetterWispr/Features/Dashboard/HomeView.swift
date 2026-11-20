@@ -182,7 +182,7 @@ private struct DictationPanel: View {
                     .foregroundStyle(.secondary)
             }
         } else if !model.microphoneGranted {
-            Text(L10n.tr("BetterWispr needs your microphone to hear you."))
+            Text(L10n.tr("PocketFlow Studio needs your microphone to hear you."))
                 .foregroundStyle(.secondary)
         } else if modelMissing {
             Text(L10n.tr("Download %@ once, then dictate offline.", String(model.selectedModel.localizedName)))

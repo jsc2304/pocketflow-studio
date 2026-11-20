@@ -424,7 +424,7 @@ final class MeetingChunkWriter: @unchecked Sendable {
     }
 
     private func open() throws {
-        let url = FileManager.default.temporaryDirectory.appending(path: "betterwispr-meeting-\(UUID().uuidString).caf")
+        let url = FileManager.default.temporaryDirectory.appending(path: "pocketflow-studio-meeting-\(UUID().uuidString).caf")
         do {
             file = try AVAudioFile(forWriting: url, settings: format.settings, commonFormat: format.commonFormat, interleaved: format.isInterleaved)
             self.url = url

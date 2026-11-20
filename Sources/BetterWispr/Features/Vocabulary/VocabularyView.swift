@@ -12,7 +12,7 @@ struct VocabularyView: View {
         Form {
             Section {
                 TextField(L10n.tr("Spoken phrase"), text: $phrase, prompt: Text(L10n.tr("better whisper")))
-                TextField(L10n.tr("Write as"), text: $replacement, prompt: Text(L10n.tr("Optional, e.g. BetterWispr")))
+                TextField(L10n.tr("Write as"), text: $replacement, prompt: Text(L10n.tr("Optional, e.g. PocketFlow Studio")))
             } header: {
                 Text(L10n.tr("Add a Word"))
             } footer: {
@@ -80,7 +80,7 @@ struct VocabularyView: View {
                 }
             } footer: {
                 if model.settings.learnCorrections {
-                    Text(L10n.tr("Entries marked Learned come from fixes you made to a dictation, in History or right after BetterWispr pasted it. Remove any you don’t want."))
+                    Text(L10n.tr("Entries marked Learned come from fixes you made to a dictation, in History or right after PocketFlow Studio pasted it. Remove any you don’t want."))
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.secondary)

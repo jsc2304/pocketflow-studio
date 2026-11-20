@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$PROJECT_DIR"
 
-NOTARY_PROFILE="${NOTARY_PROFILE:-betterwispr-notary}"
+NOTARY_PROFILE="${NOTARY_PROFILE:-pocketflow-studio-notary}"
 if [[ "${1:-}" == --setup-notary ]]; then
     read -r -p "Apple ID email: " apple_id
     if [[ -z "$apple_id" ]]; then
@@ -14,15 +14,16 @@ if [[ "${1:-}" == --setup-notary ]]; then
     fi
     # notarytool prompts securely for the app-specific password and validates it.
     exec xcrun notarytool store-credentials "$NOTARY_PROFILE" \
-        --apple-id "$apple_id" --team-id 8JL39GK2DC
+        --apple-id "$apple_id" --team-id "${APPLE_TEAM_ID:?Set APPLE_TEAM_ID for notarization}"
 fi
 
 VERSION="${1:-$(tr -d '[:space:]' < VERSION)}"
-SIGNING_IDENTITY="${SIGNING_IDENTITY:-Developer ID Application: Kartik Labhshetwar (8JL39GK2DC)}"
+: "${SIGNING_IDENTITY:?Set the PocketFlow Studio Developer ID signing identity}"
+: "${SPARKLE_PUBLIC_KEY:?Set the public key for the pocketflow-studio Sparkle account}"
 ENTITLEMENTS="Resources/BetterWispr.entitlements"
 RELEASE_DIR="$PROJECT_DIR/release"
 
-echo "=== BetterWispr v$VERSION Release Build ==="
+echo "=== PocketFlow Studio v$VERSION Release Build ==="
 echo "Checking notarization access ($NOTARY_PROFILE)..."
 if ! notary_output="$(xcrun notarytool history --keychain-profile "$NOTARY_PROFILE" 2>&1)"; then
     printf '%s\n' "$notary_output" >&2
@@ -47,12 +48,12 @@ mkdir -p "$RELEASE_DIR"
 
 build_arch() {
     local arch="$1" label="$2"
-    local app_path dmg_path="$RELEASE_DIR/BetterWispr-$arch.dmg"
+    local app_path dmg_path="$RELEASE_DIR/PocketFlowStudio-$arch.dmg"
 
     echo "[$label] Building..."
     # Use ad-hoc signing for packaging; Developer ID is applied once below.
     app_path="$(CODESIGN_IDENTITY=- ./scripts/build-app.sh release "$arch" | tail -1)"
-    if [[ "$(lipo -archs "$app_path/Contents/MacOS/BetterWispr")" != "$arch" ]]; then
+    if [[ "$(lipo -archs "$app_path/Contents/MacOS/PocketFlowStudio")" != "$arch" ]]; then
         echo "Expected $arch executable in $app_path." >&2
         return 1
     fi
@@ -84,13 +85,13 @@ cat > "$RELEASE_DIR/appcast.xml.tmp" <<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
     <channel>
-        <title>BetterWispr</title>
+        <title>PocketFlow Studio</title>
 EOF
 # Sparkle selects the first compatible item at the same version. Intel rejects
 # the arm64 requirement; Apple Silicon (including Rosetta) prefers the first item.
 for arch in arm64 x86_64; do
-    dmg_path="$RELEASE_DIR/BetterWispr-$arch.dmg"
-    signature="$(.build/artifacts/sparkle/Sparkle/bin/sign_update --account betterwispr "$dmg_path")"
+    dmg_path="$RELEASE_DIR/PocketFlowStudio-$arch.dmg"
+    signature="$(.build/artifacts/sparkle/Sparkle/bin/sign_update --account pocketflow-studio "$dmg_path")"
     hardware_requirement=""
     if [[ "$arch" == arm64 ]]; then
         hardware_requirement='<sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>'
@@ -99,12 +100,12 @@ for arch in arm64 x86_64; do
         <item>
             <title>Version $VERSION ($arch)</title>
             <pubDate>$(LC_ALL=C date -u '+%a, %d %b %Y %H:%M:%S +0000')</pubDate>
-            <link>https://github.com/opennookorg/betterwispr/releases/tag/v$VERSION</link>
+            <link>https://github.com/jsc2304/pocketflow-studio/releases/tag/v$VERSION</link>
             <sparkle:version>$VERSION</sparkle:version>
             <sparkle:shortVersionString>$VERSION</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             $hardware_requirement
-            <enclosure url="https://github.com/opennookorg/betterwispr/releases/download/v$VERSION/$(basename "$dmg_path")" type="application/octet-stream" $signature/>
+            <enclosure url="https://github.com/jsc2304/pocketflow-studio/releases/download/v$VERSION/$(basename "$dmg_path")" type="application/octet-stream" $signature/>
         </item>
 EOF
 done
@@ -121,4 +122,4 @@ echo ""
 echo "Next steps:"
 echo "  git add -A && git commit -m 'release: v$VERSION'"
 echo "  git push origin main"
-echo "  gh release create v$VERSION \"$RELEASE_DIR/BetterWispr-arm64.dmg\" \"$RELEASE_DIR/BetterWispr-x86_64.dmg\" \"$RELEASE_DIR/appcast.xml\" --title \"BetterWispr $VERSION\" --generate-notes"
+echo "  gh release create v$VERSION \"$RELEASE_DIR/PocketFlowStudio-arm64.dmg\" \"$RELEASE_DIR/PocketFlowStudio-x86_64.dmg\" \"$RELEASE_DIR/appcast.xml\" --title \"PocketFlow Studio $VERSION\" --generate-notes"

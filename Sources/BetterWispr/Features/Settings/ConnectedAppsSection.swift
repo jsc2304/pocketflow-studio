@@ -4,7 +4,7 @@ import BetterWisprCore
 struct ConnectedAppsSection: View {
     @Bindable var model: AppModel
 
-    private var executable: String { Bundle.main.executablePath ?? "/Applications/BetterWispr.app/Contents/MacOS/BetterWispr" }
+    private var executable: String { Bundle.main.executablePath ?? "/Applications/PocketFlow Studio.app/Contents/MacOS/PocketFlowStudio" }
     private var quotedExecutable: String { "'" + executable.replacingOccurrences(of: "'", with: #"'\''"#) + "'" }
 
     private var desktopConfig: String {
@@ -29,7 +29,7 @@ struct ConnectedAppsSection: View {
                 SnippetRow(title: L10n.tr("Other apps"), caption: L10n.tr("Start this command as a local (stdio) MCP server."), snippet: "\(quotedExecutable) --mcp", copy: model.copyText)
             }
         } footer: {
-            Text(L10n.tr("An app you connect reads meeting titles, attendees, summaries, your notes and transcripts, and sends what it reads to its AI provider. BetterWispr itself sends nothing. Turn this off to stop sharing right away."))
+            Text(L10n.tr("An app you connect reads meeting titles, attendees, summaries, your notes and transcripts, and sends what it reads to its AI provider. PocketFlow Studio itself sends nothing. Turn this off to stop sharing right away."))
         }
     }
 }

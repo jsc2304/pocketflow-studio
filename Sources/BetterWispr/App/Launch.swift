@@ -4,6 +4,7 @@ import BetterWisprCore
 enum Launch {
     @MainActor static func main() {
         if CommandLine.arguments.dropFirst().contains("--mcp") { return MCPServer().serveStandardIO() }
+        ToastWindow.shared.isEnabled = true
         BetterWisprApp.main()
     }
 }

@@ -49,7 +49,7 @@ public enum NotesCLI: String, Codable, CaseIterable, Sendable {
     }
 
     @MainActor static func loginShellPATH(shell: String) async -> String? {
-        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("betterwispr-shell-\(UUID())")
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("pocketflow-studio-shell-\(UUID())")
         guard (try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false,
                                                          attributes: [.posixPermissions: 0o700])) != nil else { return nil }
         defer { try? FileManager.default.removeItem(at: directory) }
@@ -172,7 +172,7 @@ struct CLINotesModel: NotesLanguageModel {
 
     private static func failure(_ cli: NotesCLI, output: String? = nil) -> MeetingNotesError {
         if let output, (try? JSONDecoder().decode(ClaudeStop.self, from: Data(output.utf8)))?.subtype == "error_max_budget_usd" {
-            return .unavailable(L10n.tr("%@ stopped at BetterWispr’s spending limit of about $%@ per request. Your meeting is still saved.", String(cli.name), String(spendingLimitPerRequest)))
+            return .unavailable(L10n.tr("%@ stopped at PocketFlow Studio’s spending limit of about $%@ per request. Your meeting is still saved.", String(cli.name), String(spendingLimitPerRequest)))
         }
         return .unavailable(L10n.tr("%@ couldn’t write notes. Update the CLI, check your usage limits or spending cap and model, and sign in with %@ in Terminal. Your meeting is still saved.", String(cli.name), String(cli.loginCommand)))
     }
@@ -184,7 +184,7 @@ struct CLINotesModel: NotesLanguageModel {
                     finalMessage: Bool = false, timeout: Duration = .seconds(600),
                     until: (@MainActor (String) -> Bool)? = nil) async throws -> String {
         try Task.checkCancellation()
-        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("betterwispr-notes-\(UUID())")
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("pocketflow-studio-notes-\(UUID())")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
         defer { try? FileManager.default.removeItem(at: directory) }
         let inputURL = directory.appendingPathComponent("input")

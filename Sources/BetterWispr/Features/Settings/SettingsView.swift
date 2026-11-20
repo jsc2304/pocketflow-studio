@@ -179,7 +179,7 @@ struct SettingsView: View {
                     if model.settings.sendToClaude {
                         ForEach(terminals, id: \.bundleID) { terminal in
                             RowDivider()
-                            SettingRow(terminal.name, caption: terminal.allowed ? L10n.tr("Allowed to tell BetterWispr which tab is in front.") : L10n.tr("BetterWispr asks %@ which tab is in front, to send only where Claude Code runs. Open %@ to allow it.", String(terminal.name), String(terminal.name))) {
+                            SettingRow(terminal.name, caption: terminal.allowed ? L10n.tr("Allowed to tell PocketFlow Studio which tab is in front.") : L10n.tr("PocketFlow Studio asks %@ which tab is in front, to send only where Claude Code runs. Open %@ to allow it.", String(terminal.name), String(terminal.name))) {
                                 if !terminal.allowed {
                                     Button(L10n.tr("Allow…")) { Task { await ClaudePrompt.requestTerminalPermission(); permissionCheck += 1 } }
                                         .disabled(!terminal.isOpen)
@@ -200,7 +200,7 @@ struct SettingsView: View {
                 SendKeysSection(model: model)
 
                 SettingsSection(L10n.tr("App")) {
-                    SettingToggle(L10n.tr("Show in Dock"), caption: L10n.tr("When off, use the menu bar to open BetterWispr. Your dictation shortcut still works."), isOn: setting(\.showInDock))
+                    SettingToggle(L10n.tr("Show in Dock"), caption: L10n.tr("When off, use the menu bar to open PocketFlow Studio. Your dictation shortcut still works."), isOn: setting(\.showInDock))
                     RowDivider()
                     SettingToggle(L10n.tr("Dictation sounds"), caption: L10n.tr("Soft cues when dictation starts listening, finishes, cancels or needs attention. Quiet during meeting capture."), isOn: setting(\.soundEffects))
                     if model.settings.soundEffects {
@@ -230,10 +230,10 @@ struct SettingsView: View {
                         }
                     }
                     RowDivider()
-                    SettingToggle(L10n.tr("Pause music while dictating"), caption: L10n.tr("Pauses Music and Spotify while you speak, then resumes them. On by default. macOS asks for permission for each of these apps that is open when BetterWispr starts or when you turn this on."), isOn: pauseMediaWhileDictating)
+                    SettingToggle(L10n.tr("Pause music while dictating"), caption: L10n.tr("Pauses Music and Spotify while you speak, then resumes them. On by default. macOS asks for permission for each of these apps that is open when PocketFlow Studio starts or when you turn this on."), isOn: pauseMediaWhileDictating)
                     if #available(macOS 14.2, *) {
                         RowDivider()
-                        SettingToggle(L10n.tr("Mute other apps while dictating"), caption: L10n.tr("Silences other apps, such as a video in your browser, while you speak. Videos keep playing silently, and your volume and mute settings don’t change. Nothing is muted if meeting notes are recording, or if a browser or a known call app such as Zoom, Teams or FaceTime is using the microphone when you start. Any other call goes silent while you speak. On by default. macOS asks to use system audio the first time it mutes. Whether other apps come back on their own if BetterWispr crashes during a dictation hasn’t been tested."), isOn: muteOtherAppsWhileDictating)
+                        SettingToggle(L10n.tr("Mute other apps while dictating"), caption: L10n.tr("Silences other apps, such as a video in your browser, while you speak. Videos keep playing silently, and your volume and mute settings don’t change. Nothing is muted if meeting notes are recording, or if a browser or a known call app such as Zoom, Teams or FaceTime is using the microphone when you start. Any other call goes silent while you speak. On by default. macOS asks to use system audio the first time it mutes. Whether other apps come back on their own if PocketFlow Studio crashes during a dictation hasn’t been tested."), isOn: muteOtherAppsWhileDictating)
                     }
                     RowDivider()
                     SettingToggle(L10n.tr("Floating recording capsule"), caption: L10n.tr("A small voice control at the bottom of your screen."), isOn: setting(\.showCapsule))
@@ -254,6 +254,7 @@ struct SettingsView: View {
                         .disabled(model.settings.hideCapsuleWhileDictating)
                     RowDivider()
                     SettingToggle(L10n.tr("Detect meetings"), caption: L10n.tr("Offer the notetaker when Zoom, Google Meet, Teams, a Slack huddle or another call starts using the microphone. Calls in a browser need Accessibility."), isOn: setting(\.detectMeetings))
+                    SettingToggle(L10n.tr("Stop when the call ends"), caption: L10n.tr("Stop notes started during a recognized call after the call app releases its audio. You can keep recording from the meeting note."), isOn: setting(\.stopAfterCall))
                     if model.settings.detectMeetings {
                         RowDivider()
                         SettingRow(L10n.tr("Meeting prompt position"), caption: L10n.tr("Where “Meeting detected” appears, on the screen showing the call. At the top it sits below the menu bar and camera.")) {
@@ -277,12 +278,12 @@ struct SettingsView: View {
                         }
                     }
                     RowDivider()
-                    SettingToggle(L10n.tr("Open at login"), caption: L10n.tr("Have BetterWispr ready when your Mac starts."), isOn: setting(\.launchAtLogin))
+                    SettingToggle(L10n.tr("Open at login"), caption: L10n.tr("Have PocketFlow Studio ready when your Mac starts."), isOn: setting(\.launchAtLogin))
                     RowDivider()
                     SettingToggle(L10n.tr("Save dictation history"), caption: model.settings.saveHistory ? L10n.tr("Keep text on this Mac so you can find and reuse it, and the audio of dictations that couldn’t be transcribed. Turning this off deletes that audio.") : L10n.tr("New dictations aren’t saved and no audio is kept. Dictations already saved stay, and Keep history deletes nothing while this is off."), isOn: setting(\.saveHistory))
                     if model.settings.saveHistory {
                         RowDivider()
-                        SettingRow(L10n.tr("Keep history"), caption: L10n.tr("Older dictations are deleted from this Mac when BetterWispr opens and after each dictation. Usage totals and Insights count only the dictations kept. Audio kept from failed dictations follows the same age limit.")) {
+                        SettingRow(L10n.tr("Keep history"), caption: L10n.tr("Older dictations are deleted from this Mac when PocketFlow Studio opens and after each dictation. Usage totals and Insights count only the dictations kept. Audio kept from failed dictations follows the same age limit.")) {
                             Picker(L10n.tr("Keep history"), selection: Binding(
                                 get: { model.settings.historyRetention },
                                 set: { retention in

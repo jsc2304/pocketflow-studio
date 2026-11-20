@@ -5,15 +5,15 @@ struct AboutView: View {
     @Bindable var updater: AppUpdater
     let shortcut: DictationShortcut
     static let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? L10n.tr("Development")
-    static let changelog = URL(string: "https://betterwispr.com/changelog")!
-    private let repository = URL(string: "https://github.com/opennookorg/betterwispr")!
+    static let changelog = URL(string: "https://github.com/jsc2304/pocketflow-studio/blob/main/CHANGELOG.md")!
+    private let repository = URL(string: "https://github.com/jsc2304/pocketflow-studio")!
 
     var body: some View {
         Form {
             Section {
                 VStack(spacing: 10) {
                     BrandMark(size: 72)
-                    Text("BetterWispr").font(.title.weight(.semibold))
+                    Text("PocketFlow Studio").font(.title.weight(.semibold))
                     Text(L10n.tr("Version %@", String(Self.version)))
                         .foregroundStyle(.secondary)
                         .textSelection(.enabled)
@@ -31,9 +31,10 @@ struct AboutView: View {
                     Text(L10n.tr("Check for updates automatically"))
                     Text(L10n.tr("Looks for a new release on GitHub once a day."))
                 }
+                .disabled(!updater.updatesConfigured)
                 Toggle(isOn: $updater.automaticallyDownloadsUpdates) {
                     Text(L10n.tr("Download and install automatically"))
-                    Text(L10n.tr("New versions install the next time BetterWispr quits."))
+                    Text(L10n.tr("New versions install the next time PocketFlow Studio quits."))
                 }
                 .disabled(!updater.automaticallyChecksForUpdates)
                 Button(L10n.tr("Check for Updates…"), action: updater.checkForUpdates)
@@ -76,14 +77,14 @@ struct AboutView: View {
             } header: {
                 Text(L10n.tr("Open Source"))
             } footer: {
-                Text(L10n.tr("BetterWispr is free and open source under the Apache 2.0 license. If it saves you some typing, a star on GitHub helps others find it."))
+                Text(L10n.tr("PocketFlow Studio is free and open source under the Apache 2.0 license. If it saves you some typing, a star on GitHub helps others find it."))
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundStyle(.secondary)
             }
 
             Section(L10n.tr("Credits")) {
-                LabeledContent(L10n.tr("Created by"), value: "Kartik Labhshetwar")
+                LabeledContent("BetterWispr", value: "Kartik Labhshetwar")
                 LabeledContent(L10n.tr("Follow along")) {
                     Link(L10n.tr("@code_kartik on X"), destination: URL(string: "https://x.com/code_kartik")!)
                 }

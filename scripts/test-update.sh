@@ -2,17 +2,18 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-bundle_id=org.betterwispr.app.updatetest
+bundle_id=io.github.jsc2304.pocketflow-studio.updatetest
 old_version=0.0.1
 new_version=0.0.2
 port="${UPDATE_TEST_PORT:-8765}"
 arch="$(uname -m)"
+: "${SPARKLE_PUBLIC_KEY:?Set the public key for the pocketflow-studio Sparkle account}"
 entitlements=Resources/BetterWispr.entitlements
 identity="${CODESIGN_IDENTITY:-$(security find-identity -v -p codesigning 2>/dev/null | awk '/\)/ {print $2; exit}' || true)}"
 identity="${identity:--}"
 work="$(mktemp -d "${TMPDIR:-/tmp}/betterwispr-update-test.XXXXXX")"
 work="$(cd "$work" && pwd -P)"
-installed="$work/install/BetterWispr.app"
+installed="$work/install/PocketFlow Studio.app"
 app_pid=""
 server_pid=""
 log_pid=""
@@ -47,30 +48,30 @@ stamp() {
 echo "Signing identity: $identity"
 built="$(CODESIGN_IDENTITY="$identity" ./scripts/build-app.sh | tail -1)"
 mkdir -p "$work/old" "$work/new" "$work/feed" "$work/install" "$work/home"
-ditto "$built" "$work/old/BetterWispr.app"
-ditto "$built" "$work/new/BetterWispr.app"
-stamp "$work/old/BetterWispr.app" "$old_version"
-stamp "$work/new/BetterWispr.app" "$new_version"
+ditto "$built" "$work/old/PocketFlow Studio.app"
+ditto "$built" "$work/new/PocketFlow Studio.app"
+stamp "$work/old/PocketFlow Studio.app" "$old_version"
+stamp "$work/new/PocketFlow Studio.app" "$new_version"
 
-dmg="$work/feed/BetterWispr-$arch.dmg"
+dmg="$work/feed/PocketFlowStudio-$arch.dmg"
 if osascript -e 'with timeout of 10 seconds' -e 'tell application "Finder" to get name of startup disk' -e 'end timeout' >/dev/null 2>&1; then
-    bash scripts/create-dmg.sh "$work/new/BetterWispr.app" "$dmg"
+    bash scripts/create-dmg.sh "$work/new/PocketFlow Studio.app" "$dmg"
 else
     echo 'warning: this process cannot script Finder, so the DMG skips create-dmg.sh window layout (Sparkle ignores it)' >&2
     mkdir -p "$work/staging"
-    ditto "$work/new/BetterWispr.app" "$work/staging/BetterWispr.app"
+    ditto "$work/new/PocketFlow Studio.app" "$work/staging/PocketFlow Studio.app"
     ln -s /Applications "$work/staging/Applications"
-    diskutil image create from "$work/staging" "$dmg" --format UDZO --volumeName BetterWispr
+    diskutil image create from "$work/staging" "$dmg" --format UDZO --volumeName "PocketFlow Studio"
 fi
 [[ "$identity" == - ]] || codesign --sign "$identity" "$dmg"
-signature="$(.build/artifacts/sparkle/Sparkle/bin/sign_update --account betterwispr "$dmg")"
+signature="$(.build/artifacts/sparkle/Sparkle/bin/sign_update --account pocketflow-studio "$dmg")"
 hardware_requirement=""
 [[ "$arch" == arm64 ]] && hardware_requirement='<sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>'
 cat > "$work/feed/appcast.xml" <<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
     <channel>
-        <title>BetterWispr</title>
+        <title>PocketFlow Studio</title>
         <item>
             <title>Version $new_version ($arch)</title>
             <pubDate>$(LC_ALL=C date -u '+%a, %d %b %Y %H:%M:%S +0000')</pubDate>
@@ -89,7 +90,7 @@ server_pid=$!
 for _ in {1..20}; do curl -fs "http://127.0.0.1:$port/appcast.xml" >/dev/null && break; sleep 0.5; done
 curl -fs "http://127.0.0.1:$port/appcast.xml" >/dev/null || fail "feed server did not start on port $port"
 
-ditto "$work/old/BetterWispr.app" "$installed"
+ditto "$work/old/PocketFlow Studio.app" "$installed"
 defaults delete "$bundle_id" >/dev/null 2>&1 || true
 defaults write "$bundle_id" SUFeedURL "http://127.0.0.1:$port/appcast.xml"
 defaults write "$bundle_id" SUEnableAutomaticChecks -bool true
@@ -102,7 +103,7 @@ log_pid=$!
 sleep 2
 
 echo "Launching $old_version from $installed"
-CFFIXED_USER_HOME="$work/home" "$installed/Contents/MacOS/BetterWispr" > "$work/app.log" 2>&1 &
+CFFIXED_USER_HOME="$work/home" "$installed/Contents/MacOS/PocketFlowStudio" > "$work/app.log" 2>&1 &
 app_pid=$!
 
 for _ in {1..120}; do

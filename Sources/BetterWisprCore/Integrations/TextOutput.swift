@@ -242,5 +242,5 @@ public struct FocusedAppIntegration: TextOutputIntegration {
 
 public enum OutputError: LocalizedError {
     case clipboard
-    public var errorDescription: String? { L10n.tr("Could not write to the clipboard. Your transcript is still available in BetterWispr.") }
+    public var errorDescription: String? { L10n.tr("Could not write to the clipboard. Your transcript is still available in PocketFlow Studio.") }
 }

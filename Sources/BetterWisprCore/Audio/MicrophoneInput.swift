@@ -75,7 +75,7 @@ final class MicrophoneInput {
                 try await preparation!.value
                 started = true
                 guard !subscribers.isEmpty else { hardware.stop(); throw CancellationError() }
-                Logger(subsystem: "org.betterwispr.app", category: "MicrophoneCapture").notice("Attached to shared input: subscribers=\(self.subscribers.count)")
+                Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "MicrophoneCapture").notice("Attached to shared input: subscribers=\(self.subscribers.count)")
             } catch {
                 stopped = true
                 throw error
@@ -206,7 +206,7 @@ private final class AudioQueueMicrophone: @unchecked Sendable {
         guard status == noErr else { throw NSError(domain: NSOSStatusErrorDomain, code: Int(status)) }
     }
 
-    private nonisolated static let logger = Logger(subsystem: "org.betterwispr.app", category: "MicrophoneCapture")
+    private nonisolated static let logger = Logger(subsystem: "io.github.jsc2304.pocketflow-studio", category: "MicrophoneCapture")
 
     /// Unchecked because a lock guards the stop and error flags, while metering flags belong to the capture worker.
     private final class Delivery: @unchecked Sendable {

@@ -1,18 +1,8 @@
-<div align="center">
+# PocketFlow Studio
 
-![BetterWispr: hold to talk, release to type](docs/assets/hero.png)
+Local dictation and meeting notes for macOS, based on [BetterWispr](https://github.com/opennookorg/betterwispr). Hold **⌥ Space**, speak, and release to type in the active app. Notes started during a recognized call can finish automatically when the call app releases its audio.
 
-# BetterWispr
-
-**Free, open-source voice dictation for macOS.** Hold **⌥ Space**, speak, release, and the text lands in the app you're typing in.
-
-Transcription runs on your Mac with Whisper, NVIDIA Parakeet, Cohere Transcribe or Apple speech. Your voice leaves your Mac only if you select an API connection or Codex subscription transcription.
-
-[Download](https://github.com/opennookorg/betterwispr/releases/latest) · [Website](https://betterwispr.com) · [Changelog](CHANGELOG.md)
-
-[![Buy me a coffee](https://shieldcn.dev/badge/Buy%20me%20a%20coffee-Support-FFDD00.svg?logo=buymeacoffee&variant=branded)](https://buymeacoffee.com/code_kartik)
-
-</div>
+PocketFlow for iOS is the companion app. A shared dictation history across iPhone and Mac is planned.
 
 ## Features
 
@@ -33,7 +23,7 @@ Transcription runs on your Mac with Whisper, NVIDIA Parakeet, Cohere Transcribe 
 
 Requires macOS 14 or later. Apple Silicon recommended.
 
-1. Download the DMG from [Releases](https://github.com/opennookorg/betterwispr/releases/latest) and drag BetterWispr to Applications.
+1. With macOS 14+, Xcode and Swift 6.2+ installed, run `./scripts/run.sh` from this checkout to build and open PocketFlow Studio.
 2. Open it, follow the welcome guide and pick a model in **Models**.
 3. Grant **Microphone** and **Accessibility** access.
 4. Click into any text field, hold **⌥ Space**, speak and release.
@@ -42,27 +32,21 @@ If paste can't safely reach the app, the text is copied to your clipboard instea
 
 ## Privacy
 
-- Settings, vocabulary and history are stored locally in `~/Library/Application Support/BetterWispr/` (not encrypted). History can be turned off.
-- Built-in models use the network only when you download one. BetterWispr never falls back to a cloud provider on its own.
+- Settings, vocabulary and history are stored locally in `~/Library/Application Support/PocketFlow Studio/` (not encrypted). History can be turned off.
+- Built-in models use the network only when you download one. PocketFlow Studio never falls back to a cloud provider on its own.
 - API keys are stored in the macOS Keychain. With an API connection, your audio goes to that provider.
 - Codex subscription transcription uses an unofficial ChatGPT endpoint. See [setup](docs/codex-subscription.md).
 - Audio is deleted after each recording. A failed dictation is kept for up to 7 days so you can retry it from History.
 
 ## Troubleshooting
 
-- **Paste stopped working after an update**: remove and re-add BetterWispr in System Settings → Privacy & Security → Accessibility.
+- **Paste stopped working after an update**: remove and re-add PocketFlow Studio in System Settings → Privacy & Security → Accessibility.
 - **Apple on-device model unavailable**: install Parakeet or Whisper instead.
 - **First transcription is slow**: large models take time to load the first time.
 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Star history
-
-<p align="center">
-  <a href="https://www.star-history.com/#opennookorg/betterwispr&Date"><picture><source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=opennookorg/betterwispr&type=Date&theme=dark" /><img alt="Star history of opennookorg/betterwispr" src="https://api.star-history.com/svg?repos=opennookorg/betterwispr&type=Date" /></picture></a>
-</p>
 
 ## License
 

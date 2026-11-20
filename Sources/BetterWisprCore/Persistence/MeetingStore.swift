@@ -5,7 +5,7 @@ public struct MeetingStore: Sendable {
 
     public init(directory: URL? = nil) {
         self.directory = directory ?? URL.applicationSupportDirectory
-            .appendingPathComponent("BetterWispr", isDirectory: true)
+            .appendingPathComponent("PocketFlow Studio", isDirectory: true)
             .appendingPathComponent("Meetings", isDirectory: true)
     }
 

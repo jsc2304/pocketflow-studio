@@ -41,7 +41,7 @@ public enum YTDLP {
     static let progressMark = "betterwispr-progress"
 
     /// BetterWispr's own copy, installed only by an explicit action.
-    public static var installed: URL { URL.applicationSupportDirectory.appending(path: "BetterWispr/Tools/yt-dlp") }
+    public static var installed: URL { URL.applicationSupportDirectory.appending(path: "PocketFlow Studio/Tools/yt-dlp") }
 
     public static var executable: URL? {
         FileManager.default.isExecutableFile(atPath: installed.path) ? installed : find("yt-dlp")
@@ -119,7 +119,7 @@ public enum YTDLP {
                                    then use: (_ audio: URL, _ title: String) async throws -> T) async throws -> T {
         guard let executable else { throw YTDLPError.notInstalled }
         try Task.checkCancellation()
-        let directory = FileManager.default.temporaryDirectory.appending(path: "betterwispr-media-\(UUID().uuidString)")
+        let directory = FileManager.default.temporaryDirectory.appending(path: "pocketflow-studio-media-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
         defer { try? FileManager.default.removeItem(at: directory) }
         let outputURL = directory.appending(path: "output")

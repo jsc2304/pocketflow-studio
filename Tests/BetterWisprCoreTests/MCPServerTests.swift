@@ -269,7 +269,7 @@ private func continuation(in text: String) -> Int? {
 
     let list = try workspace.call("list_meetings")
     #expect(!list.isError && list.text.contains("Design crit"))
-    #expect(list.text.contains("Skipped 2 meeting files BetterWispr could not read."))
+    #expect(list.text.contains("Skipped 2 meeting files PocketFlow Studio could not read."))
     #expect(try workspace.call("search_meetings", ["query": "typography"]).text.contains("Skipped 2 meeting files"))
     #expect(try !workspace.call("get_meeting", ["id": kept.id.uuidString]).isError)
     #expect(try snapshot() == before)

@@ -6,7 +6,7 @@ struct BetterWisprApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
 
     var body: some Scene {
-        Window("BetterWispr", id: "dashboard") {
+        Window("PocketFlow Studio", id: "dashboard") {
             ZStack {
                 if delegate.model.needsOnboarding {
                     OnboardingView(model: delegate.model)
@@ -51,7 +51,7 @@ struct BetterWisprApp: App {
             MenuContents(model: delegate.model)
         } label: {
             Label {
-                Text("BetterWispr")
+                Text("PocketFlow Studio")
             } icon: {
                 if delegate.model.phase == .recording {
                     Image(systemName: "mic.fill")
@@ -114,13 +114,13 @@ private struct MenuContents: View {
         }
         .keyboardShortcut(",")
         if let version = model.updater.pendingVersion {
-            Button(L10n.tr("Install BetterWispr %@…", String(version))) { model.updater.installUpdate() }
+            Button(L10n.tr("Install PocketFlow Studio %@…", String(version))) { model.updater.installUpdate() }
         } else {
             Button(L10n.tr("Check for Updates…")) { model.updater.checkForUpdates() }
                 .disabled(!model.updater.canCheckForUpdates)
         }
         Divider()
-        Button(L10n.tr("Quit BetterWispr")) { NSApplication.shared.terminate(nil) }.keyboardShortcut("q")
+        Button(L10n.tr("Quit PocketFlow Studio")) { NSApplication.shared.terminate(nil) }.keyboardShortcut("q")
     }
 
     private var status: String {
@@ -129,7 +129,7 @@ private struct MenuContents: View {
         case .transcribing: L10n.tr("Transcribing…")
         case .preparing: L10n.tr("Preparing…")
         case .asking: L10n.tr("Waiting for your answer…")
-        case .idle, .failed, .unpasted, .cancelled, .completed, .sending: L10n.tr("BetterWispr: Ready")
+        case .idle, .failed, .unpasted, .cancelled, .completed, .sending: L10n.tr("PocketFlow Studio: Ready")
         }
     }
 

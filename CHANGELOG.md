@@ -1,8 +1,17 @@
 # Changelog
 
-All notable changes to BetterWispr are listed here. The format follows
+PocketFlow Studio is based on BetterWispr. Earlier entries describe the upstream releases. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/). The current version lives in `VERSION`.
+
+## [Unreleased]
+
+### Added
+- PocketFlow Studio for macOS. A recognized call can finish its recording after twelve seconds without input or output from the call app. Choose Keep recording in the meeting note to continue.
+
+### Fixed
+- Offer the notetaker when a Teams call starts even if Core Audio only announces a change in general audio activity. BetterWispr checks that the app is using the microphone before offering to take notes.
+- Detect Google Meet calls whose browser window title uses a nonbreaking space in "Google Meet". Meeting detection now treats Unicode whitespace as ordinary spaces when matching window titles.
 
 ## [0.1.6] - 2026-11-13
 

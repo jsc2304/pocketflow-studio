@@ -1,4 +1,4 @@
-# Contributing to BetterWispr
+# Contributing to PocketFlow Studio
 
 Thanks for helping out. Bug reports, fixes and focused features are all welcome.
 
@@ -8,12 +8,12 @@ You need macOS 14+, a Swift 6.2+ toolchain and Xcode or the Command Line Tools.
 The first build downloads Swift package dependencies, so it needs internet.
 
 ```sh
-git clone https://github.com/opennookorg/betterwispr.git
-cd betterwispr
+git clone https://github.com/jsc2304/pocketflow-studio.git
+cd pocketflow-studio
 make dev
 ```
 
-`make dev` builds, runs every check and launches `.build/debug/BetterWispr.app`.
+`make dev` builds, runs every check and launches `.build/debug/PocketFlow Studio.app`.
 Always launch through `make run` or `./scripts/run.sh` so macOS attaches
 microphone and Accessibility permissions to the app bundle.
 
@@ -115,14 +115,16 @@ an interface language using staged native resource folders.
 
 One-time setup, following BetterShot's Developer ID and Keychain workflow:
 
+Set `APPLE_TEAM_ID` for notarization setup, `SIGNING_IDENTITY` to your Developer ID Application identity and `SPARKLE_PUBLIC_KEY` to the public key of the `pocketflow-studio` Sparkle signing account. Local development builds without that public key skip update checks.
+
 1. Make sure the **Developer ID Application** certificate and its private key
-   are installed in Keychain for team `8JL39GK2DC`.
+   are installed in Keychain for your Apple Developer team.
 2. At [Apple Account](https://account.apple.com), open **Sign-In and Security →
-   App-Specific Passwords**, generate a password and label it **BetterWispr**.
+   App-Specific Passwords**, generate a password and label it **PocketFlow Studio**.
    See [Apple's instructions](https://support.apple.com/en-us/102654).
 3. Run `make setup-notary`. Enter your Apple ID email, then paste that password
    into `notarytool`'s hidden prompt. Apple validates it before saving it in
-   Keychain as `betterwispr-notary`. Keep the password out of source files,
+   Keychain as `pocketflow-studio-notary`. Keep the password out of source files,
    `.env` files and shell commands. Rerun this target to replace a revoked password.
 4. Review any pending agreements in your
    [Apple Developer account](https://developer.apple.com/account/). An HTTP 403
@@ -135,8 +137,8 @@ release artifacts. Both setup and shipping accept a `NOTARY_PROFILE` environment
 override if you deliberately use a different Keychain profile.
 
 `make ship` builds, signs with Developer ID, notarizes and staples
-separate `release/BetterWispr-arm64.dmg` (Apple Silicon) and
-`release/BetterWispr-x86_64.dmg` (Intel) files. It checks each executable's
+separate `release/PocketFlowStudio-arm64.dmg` (Apple Silicon) and
+`release/PocketFlowStudio-x86_64.dmg` (Intel) files. It checks each executable's
 architecture and Gatekeeper acceptance, then signs both downloads for Sparkle
 and writes `release/appcast.xml`. The feed lists the Apple Silicon item first
 with Sparkle's `arm64` hardware requirement, so Intel receives the Intel build.
@@ -150,7 +152,7 @@ app-specific password. A macOS Keychain popup is a separate permission for
 `codesign` or Sparkle's `sign_update` to access its signing key. Choose
 **Always Allow** for the trusted tool to remember that permission, as described
 in [Apple's Keychain guidance](https://support.apple.com/guide/keychain-access/kyca1243/mac).
-Unlike BetterShot's current release script, BetterWispr also signs Sparkle
+PocketFlow Studio signs Sparkle
 updates. No signing passwords or private keys are exported into project files.
 
 To build one architecture locally, use `./scripts/build-app.sh release arm64`
